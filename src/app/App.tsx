@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import { ipcRenderer } from 'electron';
 import * as React from 'react';
 import axios from 'axios';
@@ -25,10 +26,13 @@ import {
   IUserSettings,
 } from '../user-settings';
 
+import { baseFont } from '../styles';
+
 const API_REQUEST_RETRY: number = 60000;
 
 interface IAppProps {
   airlyToken: string;
+  className?: string;
 }
 
 interface IBaseAppState {
@@ -438,4 +442,10 @@ class App extends React.Component<IAppProps, IAppState> {
   }
 }
 
-export default App;
+const AppStyled = styled(App)`
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSDisplay-Regular',
+    'Helvetica Neue', Helvetica, sans-serif;
+  ${baseFont};
+`;
+
+export default AppStyled;
