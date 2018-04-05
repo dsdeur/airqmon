@@ -1,7 +1,7 @@
 // tslint:disable:max-line-length
 
 export interface ICAQIMetadata {
-  index: number;
+  index: 0 | 1 | 2 | 3 | 4;
   values: {
     min: number;
     max: number;

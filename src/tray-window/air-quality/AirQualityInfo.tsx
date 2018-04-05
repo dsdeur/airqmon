@@ -1,23 +1,59 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 import { getCAQIMeta } from '../../caqi';
-
 import AirQualityValueBar from './AirQualityValueBar';
+import { summary, BASE_SPACING, smallFont } from '../../styles';
 
-const AirQualityInfo = ({ airQualityIndex }: { airQualityIndex: number }) => {
-  const airQualityMeta = getCAQIMeta(Math.round(airQualityIndex));
+const AirQuality = styled.div`
+  ${summary};
+  margin-top: 0;
+`;
+
+const AirQualityLabel = styled.div`
+  ${summary};
+  text-align: left;
+`;
+
+const AirQualityAdvisory = styled.div`
+  ${summary};
+  ${smallFont};
+  text-align: left;
+  margin-top: ${BASE_SPACING / 2}px;
+  font-weight: 500;
+`;
+
+const AirQualityDescription = styled.div`
+  ${summary};
+  ${smallFont};
+  text-align: left;
+  margin-top: ${BASE_SPACING / 2}px;
+`;
+
+interface IAirQualityInfo {
+  airQualityIndex: number;
+  className?: string;
+}
+
+const AirQualityInfo: React.SFC<IAirQualityInfo> = (props) => {
+  const airQualityMeta = getCAQIMeta(Math.round(props.airQualityIndex));
 
   return (
-    <div className="air-quality">
-      <div className="air-quality__summary">
-        <div className="air-quality__label">Common Air Quality Index (CAQI)</div>
-        <AirQualityValueBar airQualityIndex={airQualityIndex} />
-        <div className="air-quality__label">Advisory</div>
-        <div className="air-quality__advisory">{airQualityMeta.advisory}</div>
-        <div className="air-quality__description">{airQualityMeta.description}</div>
-      </div>
+    <div className={props.className}>
+      <AirQuality>
+        <AirQualityLabel>Common Air Quality Index (CAQI)</AirQualityLabel>
+        <AirQualityValueBar airQualityIndex={props.airQualityIndex} />
+        <AirQualityLabel>Advisory</AirQualityLabel>
+        <AirQualityAdvisory>{airQualityMeta.advisory}</AirQualityAdvisory>
+        <AirQualityDescription>{airQualityMeta.description}</AirQualityDescription>
+      </AirQuality>
     </div>
   );
 };
 
-export default AirQualityInfo;
+const AirQualityInfoStyled = styled(AirQualityInfo)`
+  display: flex;
+  align-items: center;
+`;
+
+export default AirQualityInfoStyled;
