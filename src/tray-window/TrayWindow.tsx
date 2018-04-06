@@ -1,3 +1,5 @@
+import styled, { IStyleAwareProps } from '../styled-components';
+
 import * as React from 'react';
 
 import { AirlyAPIStatus, IAirlyCurrentMeasurement, IArilyNearestSensorMeasurement } from '../airly';
@@ -6,7 +8,7 @@ import Content from './Content';
 import Footer from './Footer';
 import Header from './Header';
 
-interface ITrayWindowProps {
+interface ITrayWindowProps extends IStyleAwareProps {
   airlyApiStatus?: AirlyAPIStatus;
   geolocationError?: PositionError;
   availableAppUpdate?: { version: string; url: string };
@@ -20,41 +22,41 @@ interface ITrayWindowProps {
   onPreferencesClickHandler: () => void;
 }
 
-const TrayWindow = ({
-  availableAppUpdate,
-  connectionStatus,
-  geolocationError,
-  currentMeasurements,
-  airlyApiStatus,
-  isAutoRefreshEnabled,
-  lastUpdateDate,
-  nearestStation,
-  onQuitClickHandler,
-  onRefreshClickHandler,
-  onPreferencesClickHandler,
-}: ITrayWindowProps) => {
+const TrayWindow: React.SFC<ITrayWindowProps> = (props) => {
   return (
-    <>
+    <div className={props.className}>
       <Header />
       <ErrorBoundary>
         <Content
-          airlyApiStatus={airlyApiStatus}
-          geolocationError={geolocationError}
-          availableAppUpdate={availableAppUpdate}
-          connectionStatus={connectionStatus}
-          currentMeasurements={currentMeasurements}
-          nearestStation={nearestStation}
+          airlyApiStatus={props.airlyApiStatus}
+          geolocationError={props.geolocationError}
+          availableAppUpdate={props.availableAppUpdate}
+          connectionStatus={props.connectionStatus}
+          currentMeasurements={props.currentMeasurements}
+          nearestStation={props.nearestStation}
         />
       </ErrorBoundary>
       <Footer
-        lastUpdateDate={lastUpdateDate}
-        isAutoRefreshEnabled={isAutoRefreshEnabled}
-        onQuitClick={onQuitClickHandler}
-        onRefreshClick={onRefreshClickHandler}
-        onPreferencesClickHandler={onPreferencesClickHandler}
+        lastUpdateDate={props.lastUpdateDate}
+        isAutoRefreshEnabled={props.isAutoRefreshEnabled}
+        onQuitClick={props.onQuitClickHandler}
+        onRefreshClick={props.onRefreshClickHandler}
+        onPreferencesClickHandler={props.onPreferencesClickHandler}
       />
-    </>
+    </div>
   );
 };
 
-export default TrayWindow;
+const StyledTrayWindow = styled(TrayWindow)`
+  position: absolute;
+  top: 5px;
+
+  border-top-left-radius: ${(props) => props.theme.border.radius}px;
+  border-top-right-radius: ${(props) => props.theme.border.radius}px;
+
+  font-family: ${(props) => props.theme.text.face};
+  font-size: ${(props) => props.theme.text.primarySize}pt;
+  color: ${(props) => props.theme.text.primaryColor};
+`;
+
+export default StyledTrayWindow;
