@@ -2,9 +2,7 @@ import { ipcRenderer } from 'electron';
 import * as React from 'react';
 import { formatDateTo24Time } from '../helpers';
 import IPC_EVENTS from '../ipc-events';
-import { Link, PhotonIcon } from '../parts';
-import Button from '../parts/Button';
-import { textMixin } from '../style-mixins';
+import { Button, Link, PhotonIcon, Text } from '../parts';
 import styled, { IStyleAwareProps } from '../styled-components';
 
 interface IWindowFooterProps extends IStyleAwareProps {
@@ -25,8 +23,7 @@ const WindowFooter: React.SFC<IWindowFooterProps> = (props) => {
     ? `, last update at ${formatDateTo24Time(props.lastUpdateDate)}`
     : null;
 
-  const FooterText = styled.div`
-    ${textMixin};
+  const FooterText = Text.extend`
     margin-top: 10px;
     padding-left: 10px;
     font-size: ${(props) => props.theme.text.smallSize};
