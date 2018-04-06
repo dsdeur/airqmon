@@ -4,7 +4,7 @@ import * as React from 'react';
 import { formatDateTo24Time } from '../helpers';
 import IPC_EVENTS from '../ipc-events';
 
-interface IFooterProps {
+interface IWindowFooterProps {
   lastUpdateDate?: Date;
   isAutoRefreshEnabled: boolean;
   onRefreshClick: () => void;
@@ -12,13 +12,13 @@ interface IFooterProps {
   onQuitClick: () => void;
 }
 
-const Footer = ({
+const WindowFooter = ({
   lastUpdateDate,
   isAutoRefreshEnabled,
   onRefreshClick,
   onPreferencesClickHandler,
   onQuitClick,
-}: IFooterProps) => {
+}: IWindowFooterProps) => {
   function handleExtLinkClick(url: string, event: MouseEvent) {
     event.preventDefault();
     ipcRenderer.send(IPC_EVENTS.OPEN_BROWSER_FOR_URL, url);
@@ -65,4 +65,4 @@ const Footer = ({
   );
 };
 
-export default Footer;
+export default WindowFooter;

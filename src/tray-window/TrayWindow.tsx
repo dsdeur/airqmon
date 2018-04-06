@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import { AirlyAPIStatus, IAirlyCurrentMeasurement, IArilyNearestSensorMeasurement } from '../airly';
 import ErrorBoundary from './ErrorBoundary';
-import Content from './Content';
-import Footer from './Footer';
-import Header from './Header';
+import WindowContent from './WindowContent';
+import WindowFooter from './WindowFooter';
+import WindowHeader from './WindowHeader';
 
 interface ITrayWindowProps extends IStyleAwareProps {
   airlyApiStatus?: AirlyAPIStatus;
@@ -25,9 +25,9 @@ interface ITrayWindowProps extends IStyleAwareProps {
 const TrayWindow: React.SFC<ITrayWindowProps> = (props) => {
   return (
     <div className={props.className}>
-      <Header />
+      <WindowHeader />
       <ErrorBoundary>
-        <Content
+        <WindowContent
           airlyApiStatus={props.airlyApiStatus}
           geolocationError={props.geolocationError}
           availableAppUpdate={props.availableAppUpdate}
@@ -36,7 +36,7 @@ const TrayWindow: React.SFC<ITrayWindowProps> = (props) => {
           nearestStation={props.nearestStation}
         />
       </ErrorBoundary>
-      <Footer
+      <WindowFooter
         lastUpdateDate={props.lastUpdateDate}
         isAutoRefreshEnabled={props.isAutoRefreshEnabled}
         onQuitClick={props.onQuitClickHandler}

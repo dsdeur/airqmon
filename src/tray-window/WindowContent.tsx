@@ -10,7 +10,7 @@ import { AirlyAPIStatus, IAirlyCurrentMeasurement, IArilyNearestSensorMeasuremen
 import MeasurementPane from './measurement/MeasurementPane';
 import IPC_EVENTS from '../ipc-events';
 
-interface IContentProps {
+interface IWindowContentProps {
   availableAppUpdate?: { version: string; url: string };
   currentMeasurements?: IAirlyCurrentMeasurement;
   nearestStation?: IArilyNearestSensorMeasurement;
@@ -19,8 +19,8 @@ interface IContentProps {
   connectionStatus: boolean;
 }
 
-class Content extends React.Component<IContentProps> {
-  constructor(props: IContentProps) {
+class WindowContent extends React.Component<IWindowContentProps> {
+  constructor(props: IWindowContentProps) {
     super(props);
   }
 
@@ -133,4 +133,4 @@ class Content extends React.Component<IContentProps> {
   }
 }
 
-export default Content;
+export default WindowContent;

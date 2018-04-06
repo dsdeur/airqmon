@@ -1,12 +1,12 @@
 import styled, { IStyleAwareProps } from '../styled-components';
 import * as React from 'react';
 
-const HeaderTitle: React.SFC<IStyleAwareProps> = (props) => (
+const WindowHeaderTitle: React.SFC<IStyleAwareProps> = (props) => (
   <h1 className={`title ${props.className}`}>{props.children}</h1>
 );
 
-const Header: React.SFC<IStyleAwareProps> = (props) => {
-  const Title = styled(HeaderTitle)`
+const WindowHeader: React.SFC<IStyleAwareProps> = (props) => {
+  const Title = styled(WindowHeaderTitle)`
     margin-top: 2px;
   `;
 
@@ -17,11 +17,11 @@ const Header: React.SFC<IStyleAwareProps> = (props) => {
   );
 };
 
-const StyledHeader = styled(Header)`
+const StyledWindowHeader = styled(WindowHeader)`
   box-shadow: none;
 
   border-top-left-radius: ${(props) => props.theme.border.radius};
   border-top-right-radius: ${(props) => props.theme.border.radius};
 `;
 
-export default StyledHeader;
+export default StyledWindowHeader;
