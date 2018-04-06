@@ -14,8 +14,8 @@ const WindowHeader: React.SFC<IStyleAwareProps> = (props) => {
 const StyledWindowHeader = styled(WindowHeader)`
   box-shadow: none;
 
-  border-top-left-radius: ${(props) => props.theme.border.radius};
-  border-top-right-radius: ${(props) => props.theme.border.radius};
+  border-top-left-radius: ${(props) => props.theme.borderRadius};
+  border-top-right-radius: ${(props) => props.theme.borderRadius};
 `;
 
 export default StyledWindowHeader;

@@ -3,7 +3,9 @@ import styled, { IStyleAwareProps } from '../styled-components';
 
 enum PhotonIcon {
   alert = 'alert',
+  block = 'block',
   direction = 'direction',
+  lock = 'lock',
 }
 
 interface IIconProps extends IStyleAwareProps {

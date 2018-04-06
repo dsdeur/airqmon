@@ -51,11 +51,8 @@ const StyledTrayWindow = styled(TrayWindow)`
   position: absolute;
   top: 5px;
 
-  border-top-left-radius: ${(props) => props.theme.border.radius};
-  border-top-right-radius: ${(props) => props.theme.border.radius};
-
-  font-size: ${(props) => props.theme.text.primarySize};
-  color: ${(props) => props.theme.text.primaryColor};
+  border-top-left-radius: ${(props) => props.theme.borderRadius};
+  border-top-right-radius: ${(props) => props.theme.borderRadius};
 `;
 
 export default StyledTrayWindow;
