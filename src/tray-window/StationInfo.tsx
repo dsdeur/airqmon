@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import { IArilyNearestSensorMeasurement } from '../airly';
 
-import ContentSpacing from './ContentSpacing';
-import Link from './Link';
-import { Text } from './Text';
+import ContentSpacing from '../parts/ContentSpacing';
+import Link from '../parts/Link';
+import { Text } from '../parts/Text';
 
 interface IStationInfoProps extends IStyleAwareProps {
   station: IArilyNearestSensorMeasurement;

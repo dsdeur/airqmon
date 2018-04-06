@@ -2,7 +2,7 @@ import styled, { IStyleAwareProps } from '../styled-components';
 
 import * as React from 'react';
 
-import Link from './Link';
+import Link from '../parts/Link';
 
 interface IUpdateAlertProps extends IStyleAwareProps {
   onClickHandler: () => void;

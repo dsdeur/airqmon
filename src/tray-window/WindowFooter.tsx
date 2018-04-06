@@ -7,7 +7,7 @@ import { ipcRenderer } from 'electron';
 import { formatDateTo24Time } from '../helpers';
 import IPC_EVENTS from '../ipc-events';
 
-import Link from './Link';
+import Link from '../parts/Link';
 import { textMixin } from '../style-mixins';
 
 interface IWindowFooterProps extends IStyleAwareProps {

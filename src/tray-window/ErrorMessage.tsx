@@ -2,9 +2,9 @@ import styled, { IStyleAwareProps } from '../styled-components';
 
 import * as React from 'react';
 
-import { CenteredText } from './Text';
-import ContentSpacing from './ContentSpacing';
-import CenteredContent from './CenteredContent';
+import { CenteredText } from '../parts/Text';
+import ContentSpacing from '../parts/ContentSpacing';
+import CenteredContent from '../parts/CenteredContent';
 
 interface IErrorMessageProps extends IStyleAwareProps {
   header?: string;
