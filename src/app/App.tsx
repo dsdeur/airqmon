@@ -1,8 +1,9 @@
-import { ThemeProvider } from '../styled-components';
+import styled, { ThemeProvider } from '../styled-components';
 import { IThemeInterface, LightTheme } from '../theme';
 
-import { ipcRenderer } from 'electron';
 import * as React from 'react';
+
+import { ipcRenderer } from 'electron';
 import axios from 'axios';
 
 import visitor from '../analytics';
@@ -27,8 +28,6 @@ import {
   IRefreshIntervalMeta,
   IUserSettings,
 } from '../user-settings';
-
-import HeaderArrow from './HeaderArrow';
 
 const API_REQUEST_RETRY: number = 60000;
 
@@ -428,6 +427,17 @@ class App extends React.Component<IAppProps, IAppState> {
   }
 
   render() {
+    const HeaderArrow = styled.div`
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      margin-left: -5px;
+      height: 10px;
+      width: 10px;
+      transform: rotate(45deg);
+      background-color: #e8e6e8;
+    `;
+
     return (
       <ThemeProvider theme={this.state.appTheme}>
         <HeaderArrow />
