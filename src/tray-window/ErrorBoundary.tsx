@@ -3,6 +3,8 @@ import * as React from 'react';
 import { isDev } from '../helpers';
 import errorHandler from '../error-handler';
 
+import ErrorMessage from './ErrorMessage';
+
 interface IErrorBoundaryState {
   hasError: boolean;
 }
@@ -16,6 +18,7 @@ class ErrorBoundary extends React.Component<{}, IErrorBoundaryState> {
 
   componentDidCatch(error) {
     this.setState({ hasError: true });
+
     if (!isDev()) {
       errorHandler.error(error);
     } else {
@@ -28,16 +31,9 @@ class ErrorBoundary extends React.Component<{}, IErrorBoundaryState> {
 
     if (this.state.hasError) {
       content = (
-        <div className="centered-content">
-          <div className="error-message">
-            <div className="error-message__header">
-              <span className="icon icon-alert" /> Uh oh...
-            </div>
-            <div className="error-message_description">
-              Looks like something went wrong. Please try restarting the app.
-            </div>
-          </div>
-        </div>
+        <ErrorMessage header="Uh oh...">
+          Looks like something went wrong. Please try restarting the app.
+        </ErrorMessage>
       );
     }
 
