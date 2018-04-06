@@ -1,18 +1,18 @@
 import styled, { IStyleAwareProps } from '../styled-components';
 import * as React from 'react';
 
-const Title: React.SFC<IStyleAwareProps> = (props) => (
+const HeaderTitle: React.SFC<IStyleAwareProps> = (props) => (
   <h1 className={`title ${props.className}`}>{props.children}</h1>
 );
 
-const StyledTitle = styled(Title)`
-  margin-top: 2px;
-`;
-
 const Header: React.SFC<IStyleAwareProps> = (props) => {
+  const Title = styled(HeaderTitle)`
+    margin-top: 2px;
+  `;
+
   return (
     <header className={`toolbar toolbar-header ${props.className}`}>
-      <StyledTitle>Airqmon</StyledTitle>
+      <Title>Airqmon</Title>
     </header>
   );
 };
