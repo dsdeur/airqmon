@@ -1,8 +1,7 @@
 import * as React from 'react';
-
-import { isDev } from '../helpers';
 import errorHandler from '../error-handler';
-
+import { isDev } from '../helpers';
+import { PhotonIcon } from '../parts';
 import ErrorMessage from './ErrorMessage';
 
 interface IErrorBoundaryState {
@@ -10,10 +9,14 @@ interface IErrorBoundaryState {
 }
 
 class ErrorBoundary extends React.Component<{}, IErrorBoundaryState> {
+  static defaultState: IErrorBoundaryState = {
+    hasError: false,
+  };
+
   constructor(props) {
     super(props);
 
-    this.state = { hasError: false };
+    this.state = ErrorBoundary.defaultState;
   }
 
   componentDidCatch(error) {
@@ -31,7 +34,7 @@ class ErrorBoundary extends React.Component<{}, IErrorBoundaryState> {
 
     if (this.state.hasError) {
       content = (
-        <ErrorMessage header="Uh oh...">
+        <ErrorMessage header="Uh oh..." icon={PhotonIcon.alert}>
           Looks like something went wrong. Please try restarting the app.
         </ErrorMessage>
       );

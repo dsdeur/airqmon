@@ -1,8 +1,6 @@
-import styled, { IStyleAwareProps } from '../styled-components';
-
 import * as React from 'react';
-
-import Link from '../parts/Link';
+import { Link } from '../parts';
+import styled, { IStyleAwareProps } from '../styled-components';
 
 interface IUpdateAlertProps extends IStyleAwareProps {
   onClickHandler: () => void;
@@ -11,11 +9,7 @@ interface IUpdateAlertProps extends IStyleAwareProps {
 const UpdateAlert: React.SFC<IUpdateAlertProps> = (props) => {
   return (
     <div className={props.className}>
-      <Link
-        style={{ fontSize: props.theme.text.smallSize }}
-        href="#"
-        onClick={props.onClickHandler}
-      >
+      <Link href="#" onClick={props.onClickHandler}>
         <strong>Heads up!</strong> A new version is available for download.
       </Link>
     </div>
@@ -24,9 +18,12 @@ const UpdateAlert: React.SFC<IUpdateAlertProps> = (props) => {
 
 const StyledUpdateAlert = styled(UpdateAlert)`
   margin-top: 0px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  background-color: #dff0d8;
+  padding: 2px 0;
+  background-color: ${(props) => props.theme.updateAlert.primaryBackgroundColor};
+
+  > ${Link} {
+    font-size: ${(props) => props.theme.text.secondarySize};
+  }
 `;
 
 export default StyledUpdateAlert;

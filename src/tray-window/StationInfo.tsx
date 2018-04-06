@@ -1,33 +1,22 @@
-import styled, { IStyleAwareProps } from '../styled-components';
-
 import * as React from 'react';
-
 import { IArilyNearestSensorMeasurement } from '../airly';
-
-import ContentSpacing from '../parts/ContentSpacing';
-import Link from '../parts/Link';
-import { Text } from '../parts/Text';
+import { ContentSpacing, Icon, Link, PhotonIcon, Text } from '../parts';
+import styled, { IStyleAwareProps } from '../styled-components';
 
 interface IStationInfoProps extends IStyleAwareProps {
   station: IArilyNearestSensorMeasurement;
   onClickHandler: () => void;
 }
 
-const StationInfo: React.SFC<IStationInfoProps> = (props) => {
-  const smallerFontSize = {
-    fontSize: `${parseInt(props.theme.text.smallSize, 10) - 1}pt`,
-  };
-
+const StationInfo: React.SFC<IStationInfoProps> = ({ station, ...props }) => {
   return (
     <div className={props.className}>
       <ContentSpacing>
-        <Link style={smallerFontSize} href="#" onClick={props.onClickHandler}>
-          <span className="icon icon-direction" />&nbsp;
-          {`${props.station.address.locality}, ${props.station.address.route}`}
+        <Link href="#" onClick={props.onClickHandler}>
+          <Icon icon={PhotonIcon.direction} />
+          {`${station.address.locality}, ${station.address.route}`}
         </Link>
-        <Text style={smallerFontSize}>
-          Distance to station {(props.station.distance / 1000).toFixed(1)} km<br />
-        </Text>
+        <Text>Distance to station {(station.distance / 1000).toFixed(1)} km</Text>
       </ContentSpacing>
     </div>
   );
@@ -35,6 +24,12 @@ const StationInfo: React.SFC<IStationInfoProps> = (props) => {
 
 const StyledStationInfo = styled(StationInfo)`
   margin-top: ${(props) => props.theme.spacing};
+
+  > ${ContentSpacing} & {
+    > ${Text}, > ${Link} {
+      font-size: ${(props) => props.theme.text.smallSize};
+    }
+  }
 `;
 
 export default StyledStationInfo;

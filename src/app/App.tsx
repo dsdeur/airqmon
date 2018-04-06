@@ -1,32 +1,28 @@
-import styled, { ThemeProvider } from '../styled-components';
-import { IThemeInterface, LightTheme } from '../theme';
-
-import * as React from 'react';
-
-import { ipcRenderer } from 'electron';
 import axios from 'axios';
-
-import visitor from '../analytics';
-import { getLocation } from '../geolocation';
-import { TrayWindow } from '../tray-window';
-import updateChecker from '../update-checker';
-import errorHandler from '../error-handler';
-
+import { ipcRenderer } from 'electron';
+import * as React from 'react';
 import {
   AIRLY_API_URL,
   AirlyAPIStatus,
   IAirlyCurrentMeasurement,
   IArilyNearestSensorMeasurement,
 } from '../airly';
+import visitor from '../analytics';
 import { getCAQIMeta } from '../caqi';
+import errorHandler from '../error-handler';
+import { getLocation } from '../geolocation';
 import { isEmptyObject } from '../helpers';
 import IPC_EVENTS from '../ipc-events';
+import styled, { ThemeProvider } from '../styled-components';
+import { IThemeInterface, LightTheme } from '../theme';
+import { TrayWindow } from '../tray-window';
+import updateChecker from '../update-checker';
 import {
-  shouldNotifyAbout,
-  userSettings,
-  getRefreshIntervalMeta,
   IRefreshIntervalMeta,
   IUserSettings,
+  getRefreshIntervalMeta,
+  shouldNotifyAbout,
+  userSettings,
 } from '../user-settings';
 
 const API_REQUEST_RETRY: number = 60000;

@@ -1,16 +1,13 @@
-import styled, { IStyleAwareProps } from '../styled-components';
-
 import * as React from 'react';
-
-import { CenteredText } from '../parts/Text';
-import ContentSpacing from '../parts/ContentSpacing';
-import CenteredContent from '../parts/CenteredContent';
+import { CenteredContent, CenteredText, ContentSpacing, Icon, PhotonIcon } from '../parts';
+import styled, { IStyleAwareProps } from '../styled-components';
 
 interface IErrorMessageProps extends IStyleAwareProps {
   header?: string;
+  icon?: PhotonIcon;
 }
 
-const ErrorMessage: React.SFC<IErrorMessageProps> = (props) => {
+const ErrorMessage: React.SFC<IErrorMessageProps> = ({ header = null, icon = null, ...props }) => {
   const ErrorMessageHeader = styled(CenteredText)`
     font-weight: 500;
     color: ${(props) => props.theme.text.errorColor};
@@ -23,9 +20,10 @@ const ErrorMessage: React.SFC<IErrorMessageProps> = (props) => {
   return (
     <ContentSpacing>
       <CenteredContent>
-        {props.header ? null : (
+        {header == null ? null : (
           <ErrorMessageHeader>
-            <span className="icon icon-alert" /> {props.header}
+            {icon == null ? null : <Icon icon={icon} />}
+            {header}
           </ErrorMessageHeader>
         )}
         <ErrorMessageNotice>{props.children}</ErrorMessageNotice>

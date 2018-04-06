@@ -4,6 +4,9 @@ export interface IThemeInterface {
     primaryColor: string;
     darkColor: string;
   };
+  updateAlert: {
+    primaryBackgroundColor: string;
+  };
   border: {
     color: string;
     radius: string;
@@ -11,6 +14,7 @@ export interface IThemeInterface {
   };
   text: {
     primarySize: string;
+    secondarySize: string;
     smallSize: string;
     primaryColor: string;
     errorColor: string;
@@ -30,6 +34,9 @@ export const LightTheme: IThemeInterface = {
     primaryColor: '#ffffff',
     darkColor: '#ececec',
   },
+  updateAlert: {
+    primaryBackgroundColor: '#dff0d8',
+  },
   border: {
     color: '#c2c0c2',
     radius: '6px',
@@ -37,7 +44,8 @@ export const LightTheme: IThemeInterface = {
   },
   text: {
     primarySize: '10pt',
-    smallSize: '8pt',
+    secondarySize: '8pt',
+    smallSize: '7pt',
     primaryColor: '#333',
     errorColor: '#cc0000',
     airQualityIndexColor: {

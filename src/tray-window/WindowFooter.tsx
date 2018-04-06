@@ -32,7 +32,7 @@ const WindowFooter: React.SFC<IWindowFooterProps> = (props) => {
     ${textMixin};
     margin-top: 10px;
     padding-left: 10px;
-    font-size: ${parseInt(props.theme.text.smallSize, 10) - 1}px;
+    font-size: ${(props) => props.theme.text.smallSize};
     float: left;
   `;
 
