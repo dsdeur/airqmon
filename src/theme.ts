@@ -1,18 +1,17 @@
 export interface IThemeInterface {
-  spacing: number;
+  spacing: string;
   background: {
     primaryColor: string;
     darkColor: string;
   };
   border: {
     color: string;
-    radius: number;
-    size: number;
+    radius: string;
+    size: string;
   };
   text: {
-    face: string;
-    primarySize: number;
-    smallSize: number;
+    primarySize: string;
+    smallSize: string;
     primaryColor: string;
     errorColor: string;
     airQualityIndexColor: {
@@ -26,21 +25,19 @@ export interface IThemeInterface {
 }
 
 export const LightTheme: IThemeInterface = {
-  spacing: 8,
+  spacing: '8px',
   background: {
     primaryColor: '#ffffff',
     darkColor: '#ececec',
   },
   border: {
     color: '#c2c0c2',
-    radius: 6,
-    size: 1,
+    radius: '6px',
+    size: '1px',
   },
   text: {
-    face:
-      "system-ui, -apple-system, BlinkMacSystemFont, '.SFNSDisplay-Regular', 'Helvetica Neue', Helvetica, sans-serif'",
-    primarySize: 10,
-    smallSize: 8,
+    primarySize: '10pt',
+    smallSize: '8pt',
     primaryColor: '#333',
     errorColor: '#cc0000',
     airQualityIndexColor: {

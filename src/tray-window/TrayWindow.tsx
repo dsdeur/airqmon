@@ -51,11 +51,10 @@ const StyledTrayWindow = styled(TrayWindow)`
   position: absolute;
   top: 5px;
 
-  border-top-left-radius: ${(props) => props.theme.border.radius}px;
-  border-top-right-radius: ${(props) => props.theme.border.radius}px;
+  border-top-left-radius: ${(props) => props.theme.border.radius};
+  border-top-right-radius: ${(props) => props.theme.border.radius};
 
-  font-family: ${(props) => props.theme.text.face};
-  font-size: ${(props) => props.theme.text.primarySize}pt;
+  font-size: ${(props) => props.theme.text.primarySize};
   color: ${(props) => props.theme.text.primaryColor};
 `;
 

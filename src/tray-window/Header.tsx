@@ -20,8 +20,8 @@ const Header: React.SFC<IStyleAwareProps> = (props) => {
 const StyledHeader = styled(Header)`
   box-shadow: none;
 
-  border-top-left-radius: ${(props) => props.theme.border.radius}px;
-  border-top-right-radius: ${(props) => props.theme.border.radius}px;
+  border-top-left-radius: ${(props) => props.theme.border.radius};
+  border-top-right-radius: ${(props) => props.theme.border.radius};
 `;
 
 export default StyledHeader;
