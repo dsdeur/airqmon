@@ -7,11 +7,8 @@ export interface IThemeInterface {
   updateAlert: {
     primaryBackgroundColor: string;
   };
-  border: {
-    color: string;
-    radius: string;
-    size: string;
-  };
+  border: string;
+  borderRadius: string;
   text: {
     primarySize: string;
     secondarySize: string;
@@ -37,11 +34,8 @@ export const LightTheme: IThemeInterface = {
   updateAlert: {
     primaryBackgroundColor: '#dff0d8',
   },
-  border: {
-    color: '#c2c0c2',
-    radius: '6px',
-    size: '1px',
-  },
+  border: '1px solid #c2c0c2',
+  borderRadius: '6px',
   text: {
     primarySize: '10pt',
     secondarySize: '8pt',

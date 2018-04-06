@@ -3,17 +3,18 @@ import errorHandler from '../error-handler';
 import { isDev } from '../helpers';
 import { PhotonIcon } from '../parts';
 import ErrorMessage from './ErrorMessage';
+import styled, { IStyleAwareProps } from '../styled-components';
 
 interface IErrorBoundaryState {
   hasError: boolean;
 }
 
-class ErrorBoundary extends React.Component<{}, IErrorBoundaryState> {
+class ErrorBoundary extends React.Component<IStyleAwareProps, IErrorBoundaryState> {
   static defaultState: IErrorBoundaryState = {
     hasError: false,
   };
 
-  constructor(props) {
+  constructor(props: IStyleAwareProps) {
     super(props);
 
     this.state = ErrorBoundary.defaultState;
@@ -41,11 +42,17 @@ class ErrorBoundary extends React.Component<{}, IErrorBoundaryState> {
     }
 
     return (
-      <div className="window-content">
+      <div className={`window-content ${this.props.className}`}>
         <div className="pane">{content}</div>
       </div>
     );
   }
 }
 
-export default ErrorBoundary;
+const StyledErrorBoundary = styled(ErrorBoundary)`
+  background-color: ${(props) => props.theme.background.primaryColor};
+  border-right: ${(props) => props.theme.border};
+  border-left: ${(props) => props.theme.border};
+`;
+
+export default StyledErrorBoundary;

@@ -1,3 +1,1 @@
-import TrayWindow from './TrayWindow';
-
-export { TrayWindow };
+export { default as TrayWindow } from './TrayWindow';
