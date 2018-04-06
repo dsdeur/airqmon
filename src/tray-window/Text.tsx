@@ -1,12 +1,12 @@
 import styled from '../styled-components';
 
+import { textMixin } from '../style-mixins';
+
 export const Text = styled.div`
-  text-align: 'left';
-  font-size: ${(props) => props.theme.text.primarySize};
-  color: ${(props) => props.theme.text.primaryColor};
-  font-weight: 300;
+  ${textMixin};
+  text-align: left;
 `;
 
-export const CenteredText = styled(Text)`
+export const CenteredText = Text.extend`
   text-align: center;
 `;
