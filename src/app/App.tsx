@@ -1,4 +1,6 @@
-import styled from 'styled-components';
+import { ThemeProvider } from '../styled-components';
+import { IThemeInterface, LightTheme } from '../theme';
+
 import { ipcRenderer } from 'electron';
 import * as React from 'react';
 import axios from 'axios';
@@ -26,7 +28,7 @@ import {
   IUserSettings,
 } from '../user-settings';
 
-import { baseFont } from '../styles';
+import HeaderArrow from './HeaderArrow';
 
 const API_REQUEST_RETRY: number = 60000;
 
@@ -36,6 +38,7 @@ interface IAppProps {
 }
 
 interface IBaseAppState {
+  appTheme?: IThemeInterface;
   tokens: {
     airly: string;
     userProvidedAirly?: string;
@@ -63,6 +66,12 @@ interface IAppState extends IBaseAppState, IDataAppState {
 }
 
 class App extends React.Component<IAppProps, IAppState> {
+  static stateDefaults: Partial<IAppState> = {
+    isAutoRefreshEnabled: false,
+    connectionStatus: false,
+    appTheme: LightTheme,
+  };
+
   private lastUsedStationId?: number = null;
   private refreshTimer: NodeJS.Timer = null;
   private initTimer: NodeJS.Timer = null;
@@ -71,11 +80,11 @@ class App extends React.Component<IAppProps, IAppState> {
     super(props);
 
     this.state = {
+      ...App.stateDefaults,
       isAutoRefreshEnabled: userSettings.get('refreshMeasurements'),
       refreshMeasurementsIntervalMeta: getRefreshIntervalMeta(
         userSettings.get('refreshMeasurementsInterval'),
       ),
-      connectionStatus: false,
       tokens: {
         airly: this.props.airlyToken,
         userProvidedAirly: userSettings.get('airlyApiKey'),
@@ -420,32 +429,24 @@ class App extends React.Component<IAppProps, IAppState> {
 
   render() {
     return (
-      <>
-        <div className="header-arrow" />
-        <div className="tray-window window">
-          <TrayWindow
-            airlyApiStatus={this.state.airlyApiStatus}
-            connectionStatus={this.state.connectionStatus}
-            geolocationError={this.state.geolocationError}
-            currentMeasurements={this.state.currentMeasurements}
-            nearestStation={this.state.nearestStation}
-            lastUpdateDate={this.state.lastUpdateDate}
-            isAutoRefreshEnabled={this.state.isAutoRefreshEnabled}
-            availableAppUpdate={this.state.appUpdate}
-            onRefreshClickHandler={this.handleRefreshClick}
-            onPreferencesClickHandler={this.handlePreferencesClick}
-            onQuitClickHandler={this.handleQuitClick}
-          />
-        </div>
-      </>
+      <ThemeProvider theme={this.state.appTheme}>
+        <HeaderArrow />
+        <TrayWindow
+          airlyApiStatus={this.state.airlyApiStatus}
+          connectionStatus={this.state.connectionStatus}
+          geolocationError={this.state.geolocationError}
+          currentMeasurements={this.state.currentMeasurements}
+          nearestStation={this.state.nearestStation}
+          lastUpdateDate={this.state.lastUpdateDate}
+          isAutoRefreshEnabled={this.state.isAutoRefreshEnabled}
+          availableAppUpdate={this.state.appUpdate}
+          onRefreshClickHandler={this.handleRefreshClick}
+          onPreferencesClickHandler={this.handlePreferencesClick}
+          onQuitClickHandler={this.handleQuitClick}
+        />
+      </ThemeProvider>
     );
   }
 }
 
-const AppStyled = styled(App)`
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSDisplay-Regular',
-    'Helvetica Neue', Helvetica, sans-serif;
-  ${baseFont};
-`;
-
-export default AppStyled;
+export default App;
