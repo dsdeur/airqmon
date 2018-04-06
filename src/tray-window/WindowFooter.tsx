@@ -1,14 +1,11 @@
-import styled, { IStyleAwareProps } from '../styled-components';
-
-import * as React from 'react';
-
 import { ipcRenderer } from 'electron';
-
+import * as React from 'react';
 import { formatDateTo24Time } from '../helpers';
 import IPC_EVENTS from '../ipc-events';
-
-import Link from '../parts/Link';
+import { Link, PhotonIcon } from '../parts';
+import Button from '../parts/Button';
 import { textMixin } from '../style-mixins';
+import styled, { IStyleAwareProps } from '../styled-components';
 
 interface IWindowFooterProps extends IStyleAwareProps {
   lastUpdateDate?: Date;
@@ -36,6 +33,10 @@ const WindowFooter: React.SFC<IWindowFooterProps> = (props) => {
     float: left;
   `;
 
+  const ButtonGroup = styled.div.attrs({
+    className: 'btn-group',
+  })``;
+
   return (
     <footer className={`toolbar ${props.className}`}>
       <FooterText>
@@ -46,24 +47,15 @@ const WindowFooter: React.SFC<IWindowFooterProps> = (props) => {
         {lastUpdate}
       </FooterText>
       <div className="toolbar-actions pull-right">
-        <div className="btn-group">
-          <button
-            className={'btn btn-default' + (props.isAutoRefreshEnabled ? ' active' : '')}
+        <ButtonGroup>
+          <Button
+            active={props.isAutoRefreshEnabled}
             onClick={props.onRefreshClick}
-          >
-            <span className="icon icon-arrows-ccw" title="Background fetch" />
-          </button>
-          <button className="btn btn-default">
-            <span
-              className="icon icon-cog"
-              title="Preferences"
-              onClick={props.onPreferencesClickHandler}
-            />
-          </button>
-          <button className="btn btn-default" onClick={props.onQuitClick}>
-            <span className="icon icon-cancel" title="Quit" />
-          </button>
-        </div>
+            icon={PhotonIcon.arrows_ccw}
+          />
+          <Button onClick={props.onPreferencesClickHandler} icon={PhotonIcon.cog} />
+          <Button onClick={props.onQuitClick} icon={PhotonIcon.cancel} />
+        </ButtonGroup>
       </div>
     </footer>
   );
