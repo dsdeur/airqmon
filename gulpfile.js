@@ -15,29 +15,30 @@ const tslint = require('tslint');
 const useref = require('gulp-useref');
 
 gulp.task('clean', (cb) => {
-  return del([
-    'out',
-    'build',
-    'coverage',
-    '*.log',
-  ]);
+  return del(['out', 'build', 'coverage', '*.log']);
 });
 
 gulp.task('tslint', () => {
   const program = tslint.Linter.createProgram('tsconfig.release.json');
 
-  return gulp.src(['src/**/*.{ts,tsx}', '!**/*.d.ts'])
-    .pipe(gulpTslint({
-      program,
-    }))
-    .pipe(gulpTslint.report({
-      summarizeFailureOutput: true,
-    }));
+  return gulp
+    .src(['src/**/*.{ts,tsx}', '!**/*.d.ts'])
+    .pipe(
+      gulpTslint({
+        program,
+      }),
+    )
+    .pipe(
+      gulpTslint.report({
+        summarizeFailureOutput: true,
+      }),
+    );
 });
 
 gulp.task('build:scripts', () => {
   const tsProject = ts.createProject('tsconfig.json');
-  const tsResult = gulp.src(['src/**/*.{ts,tsx}', '!**/*.d.ts'])
+  const tsResult = gulp
+    .src(['src/**/*.{ts,tsx}', '!**/*.d.ts'])
     .pipe(cache('scripts'))
     .pipe(sourcemaps.init())
     .pipe(tsProject());
@@ -49,27 +50,28 @@ gulp.task('build:scripts', () => {
 
 gulp.task('build:scripts:release', () => {
   const tsProject = ts.createProject('tsconfig.release.json');
-  const tsResult = gulp.src(['src/**/*.{ts,tsx}', '!**/*.d.ts'])
-    .pipe(tsProject());
+  const tsResult = gulp.src(['src/**/*.{ts,tsx}', '!**/*.d.ts']).pipe(tsProject());
 
-  return tsResult.js
-    .pipe(gulp.dest('build'));
+  return tsResult.js.pipe(gulp.dest('build'));
 });
 
 gulp.task('build:html', () => {
-  return gulp.src('src/**/*.html')
+  return gulp
+    .src('src/**/*.html')
     .pipe(cache('html'))
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('build:html:release', () => {
-  return gulp.src('src/**/*.html')
+  return gulp
+    .src('src/**/*.html')
     .pipe(useref())
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('build:styles', () => {
-  return gulp.src('src/index.less')
+  return gulp
+    .src('src/index.less')
     .pipe(less())
     .pipe(gulp.dest('build'));
 });
@@ -93,11 +95,7 @@ gulp.task('electron:package', () => {
     name: 'Airqmon',
     appCategoryType: 'public.app-category.weather',
     dir: './',
-    ignore: [
-      '^/src',
-      '^/__tests__',
-      '^/coverage',
-    ],
+    ignore: ['^/src', '^/__tests__', '^/coverage'],
     asar: true,
     icon: './assets/airqmon.icns',
     overwrite: true,
@@ -105,19 +103,21 @@ gulp.task('electron:package', () => {
     out: './out',
     arch: 'x64',
     platform: 'darwin',
-    afterCopy: [(buildPath, electronVersion, platform, arch, callback) => {
-      rebuild({ buildPath, electronVersion, arch })
-        .then(() => callback())
-        .catch((error) => callback(error));
-    }],
+    afterCopy: [
+      (buildPath, electronVersion, platform, arch, callback) => {
+        rebuild({ buildPath, electronVersion, arch })
+          .then(() => callback())
+          .catch((error) => callback(error));
+      },
+    ],
   });
 });
 
 gulp.task('build', gulpSequence('clean', ['build:scripts', 'build:html', 'build:styles']));
-gulp.task('build:release', gulpSequence(
-  'clean',
-  ['build:scripts:release', 'build:html:release', 'build:styles']
-));
+gulp.task(
+  'build:release',
+  gulpSequence('clean', ['build:scripts:release', 'build:html:release', 'build:styles']),
+);
 gulp.task('start', gulpSequence('watch', 'electron:start'));
 gulp.task('package', gulpSequence('build:release', 'electron:package'));
 

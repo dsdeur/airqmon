@@ -5,9 +5,7 @@
     "moduleResolution": "node",
     "rootDir": "./src",
     "outDir": "build",
-    "typeRoots": [
-      "types"
-    ],
+    "typeRoots": ["types"],
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
@@ -23,7 +21,5 @@
     "strictNullChecks": false,
     "declaration": false
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }

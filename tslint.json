@@ -1,17 +1,10 @@
 {
-  "extends": [
-    "tslint-eslint-rules",
-    "tslint-react",
-    "tslint-config-prettier"
-  ],
+  "extends": ["tslint-eslint-rules", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "interface-name": [true, "always-prefix"],
     "import-name": [false],
     "variable-name": {
-      "options": [
-        "allow-pascal-case",
-        "allow-leading-underscore"
-      ]
+      "options": ["allow-pascal-case", "allow-leading-underscore"]
     }
   }
 }
