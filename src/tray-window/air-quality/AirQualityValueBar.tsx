@@ -1,24 +1,105 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import { CAQI_INDEX, CAQI_MAX_VAL, CAQI_MIN_VAL, ICAQIMetadata, getCAQIMeta } from '../../caqi';
+import styled, { IStyleAwareProps } from '../../styled-components';
+import { Text } from '../../parts';
 
-import { CAQI_MIN_VAL, CAQI_MAX_VAL, CAQI_INDEX, ICAQIMetadata, getCAQIMeta } from '../../caqi';
-import {
-  BASE_SPACING,
-  TEXT_COLOR_CAQI_1,
-  TEXT_COLOR_CAQI_3,
-  TEXT_COLOR_CAQI_5,
-  BORDER_COLOR,
-  BORDER_RADIUS,
-  smallFont,
-  getTextColorForCAQI,
-} from '../../styles';
-
-interface IAirQualityValueBarProps {
-  airQualityIndex: number;
-  className?: string;
+interface IAQValueBarValueProps extends IStyleAwareProps {
+  caqi: number;
 }
 
-interface IAirQualityValueBarState {
+const AQValueBarValueComponent: React.SFC<IAQValueBarValueProps> = (props) => {
+  return <div className={props.className}>{props.children}</div>;
+};
+
+const AQValueBarValue = styled(AQValueBarValueComponent)`
+  flex: 1;
+  margin: 1px 0 1px 1px;
+  padding: 1px 6px;
+  color: ${(props) => props.theme.text.airQualityIndexColor[`$${props.caqi}`]};
+`;
+
+const AQValueBarValues = styled.div`
+  display: flex;
+  background-color: ${(props) => props.theme.borderColor};
+  border-radius: ${(props) => props.theme.borderRadius};
+  color: ${(props) => props.theme.text.lightColor};
+
+  > ${AQValueBarValue} {
+    &:first-child {
+      border-radius: ${(props) => props.theme.borderRadius} 0 0
+        ${(props) => props.theme.borderRadius};
+      text-align: left;
+    }
+
+    &:last-child {
+      margin-right: 1px;
+      border-radius: 0 ${(props) => props.theme.borderRadius} ${(props) => props.theme.borderRadius}
+        0;
+      text-align: center;
+    }
+  }
+`;
+
+const AQValueBarLabel = Text.extend`
+  flex: 1;
+  text-align: center;
+`;
+
+const AQValueBarLabels = styled.div`
+  display: flex;
+  margin-top: calc(${(props) => props.theme.spacing} / 2);
+
+  > ${AQValueBarLabel} {
+    &:nth-child(1) {
+      text-align: left;
+      color: ${(props) => props.theme.text.airQualityIndexColor.$1};
+    }
+
+    &:nth-child(2) {
+      color: ${(props) => props.theme.text.airQualityIndexColor.$3};
+    }
+
+    &:nth-child(3) {
+      text-align: right;
+      color: ${(props) => props.theme.text.airQualityIndexColor.$5};
+    }
+  }
+`;
+
+interface IAQValueOverlayInlineStyle {
+  visible: 'hidden' | 'visible';
+  top: number;
+  left: number;
+}
+
+interface IAQValueOverlayProps extends IStyleAwareProps, React.HTMLAttributes<HTMLDivElement> {
+  caqi: number;
+  style?: any;
+}
+
+const AQValueOverlayComponent: React.SFC<IAQValueOverlayProps> = (props) => {
+  return <div className={props.className}>{props.children}</div>;
+};
+
+const AQValueOverlay = styled(AQValueOverlayComponent)`
+  position: absolute;
+  width: 35px;
+  line-height: 2.25;
+  color: ${(props) => props.theme.text.lightColor};
+  font-weight: 400;
+  text-align: center;
+  border-radius: ${(props) => props.theme.borderRadius};
+  border: ${(props) => props.theme.border};
+  box-shadow: 2px 2px 8px 0px rgba(153, 153, 153, 0.5);
+  transition: left 0.33s linear;
+  background-color: ${(props) => props.theme.text.airQualityIndexColor[`$${props.caqi}`]};
+`;
+
+interface IAQValueBarProps extends IStyleAwareProps {
+  airQualityIndex: number;
+}
+
+interface IAQValueBarState {
   hasRefs: boolean;
   elBoundingBox?: ClientRect;
   overlayElBoundingBox?: ClientRect;
@@ -27,77 +108,11 @@ interface IAirQualityValueBarState {
   maxCAQI: ICAQIMetadata;
 }
 
-const AirQualityValueBarValues = styled.div`
-  display: flex;
-  background-color: ${BORDER_COLOR};
-  border-radius: ${BORDER_RADIUS};
-  ${smallFont};
-  color: #eaeaea;
-
-  div {
-    flex: 1;
-    margin: 1px 0 1px 1px;
-    padding: 1px 6px;
-
-    &:first-child {
-      border-radius: ${BORDER_RADIUS} 0 0 ${BORDER_RADIUS};
-      text-align: left;
-    }
-
-    &:last-child {
-      margin-right: 1px;
-      border-radius: 0 ${BORDER_RADIUS} ${BORDER_RADIUS} 0;
-      text-align: center;
-    }
-  }
-`;
-
-const AirQualityValueBarDescription = styled.div`
-  display: flex;
-  margin-top: ${BASE_SPACING / 2}px;
-  ${smallFont};
-
-  div {
-    flex: 1;
-    text-align: center;
-
-    &:nth-child(1) {
-      text-align: left;
-      color: ${TEXT_COLOR_CAQI_1};
-    }
-
-    &:nth-child(2) {
-      color: ${TEXT_COLOR_CAQI_3};
-    }
-
-    &:nth-child(3) {
-      text-align: right;
-      color: ${TEXT_COLOR_CAQI_5};
-    }
-  }
-`;
-
-const Overlay = styled.div`
-  position: absolute;
-  width: 35px;
-  line-height: 2.25;
-  color: #eaeaea;
-  font-weight: 400;
-  text-align: center;
-  border-radius: ${BORDER_RADIUS};
-  border: 1px solid ${BORDER_COLOR};
-  box-shadow: 2px 2px 8px 0px rgba(153, 153, 153, 0.5);
-  transition: left 0.33s linear;
-`;
-
-class AirQualityValueBar extends React.Component<
-  IAirQualityValueBarProps,
-  IAirQualityValueBarState
-> {
+class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarState> {
   private valueBarNode: HTMLDivElement;
   private overlayNode: HTMLDivElement;
 
-  constructor(props: IAirQualityValueBarProps) {
+  constructor(props: IAQValueBarProps) {
     super(props);
 
     this.state = {
@@ -118,11 +133,7 @@ class AirQualityValueBar extends React.Component<
     });
   }
 
-  getOverlayStyle(): {
-    visible: 'hidden' | 'visible';
-    top: number;
-    left: number;
-  } {
+  getOverlayStyle(): IAQValueOverlayInlineStyle {
     let top: number = 0;
     let left: number = 0;
 
@@ -149,38 +160,41 @@ class AirQualityValueBar extends React.Component<
   render() {
     const airQualityMeta = getCAQIMeta(Math.round(this.props.airQualityIndex));
 
-    const caqiValueBlocks = CAQI_INDEX.reduce((acc, currentValue, currentIndex) => {
+    const aqValueBarValues = CAQI_INDEX.reduce((acc, currentValue, currentIndex) => {
       return [
         ...acc,
-        <div key={currentValue.index} style={{ color: getTextColorForCAQI(currentValue.index) }}>
+        <AQValueBarValue key={currentValue.index} caqi={currentValue.index}>
           {currentIndex == 0 ? currentValue.values.min : null}
           {currentIndex == CAQI_INDEX.length - 1 ? `${currentValue.values.min}+` : null}
-        </div>,
+        </AQValueBarValue>,
       ];
     }, []);
 
     return (
       <div className={this.props.className}>
-        <AirQualityValueBarValues
-          ref={(node) => {
+        <AQValueBarValues
+          // tslint:disable-next-line:jsx-no-lambda
+          innerRef={(node) => {
             this.valueBarNode = node;
           }}
         >
-          {caqiValueBlocks}
-        </AirQualityValueBarValues>
-        <AirQualityValueBarDescription>
-          <div>{this.state.minCAQI.labels.airQuality}</div>
-          <div>{this.state.medCAQI.labels.airQuality}</div>
-          <div>{this.state.maxCAQI.labels.airQuality}</div>
-        </AirQualityValueBarDescription>
-        <Overlay
-          style={{ ...this.getOverlayStyle(), color: getTextColorForCAQI(airQualityMeta.index) }}
-          ref={(node) => {
+          {aqValueBarValues}
+        </AQValueBarValues>
+        <AQValueBarLabels>
+          <AQValueBarLabel>{this.state.minCAQI.labels.airQuality}</AQValueBarLabel>
+          <AQValueBarLabel>{this.state.medCAQI.labels.airQuality}</AQValueBarLabel>
+          <AQValueBarLabel>{this.state.maxCAQI.labels.airQuality}</AQValueBarLabel>
+        </AQValueBarLabels>
+        <AQValueOverlay
+          style={this.getOverlayStyle()}
+          caqi={airQualityMeta.index}
+          // tslint:disable-next-line:jsx-no-lambda
+          innerRef={(node) => {
             this.overlayNode = node;
           }}
         >
           {this.props.airQualityIndex.toFixed(0)}
-        </Overlay>
+        </AQValueOverlay>
       </div>
     );
   }
@@ -188,7 +202,7 @@ class AirQualityValueBar extends React.Component<
 
 const AirQualityValueBarStyled = styled(AirQualityValueBar)`
   position: relative;
-  margin-top: ${BASE_SPACING}px;
+  margin-top: ${(props) => props.theme.spacing};
 `;
 
 export default AirQualityValueBarStyled;

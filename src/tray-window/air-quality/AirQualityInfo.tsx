@@ -1,34 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-
 import { getCAQIMeta } from '../../caqi';
+import { ContentSpacing, Text } from '../../parts';
 import AirQualityValueBar from './AirQualityValueBar';
-import { summary, BASE_SPACING, smallFont } from '../../styles';
-
-const AirQuality = styled.div`
-  ${summary};
-  margin-top: 0;
-`;
-
-const AirQualityLabel = styled.div`
-  ${summary};
-  text-align: left;
-`;
-
-const AirQualityAdvisory = styled.div`
-  ${summary};
-  ${smallFont};
-  text-align: left;
-  margin-top: ${BASE_SPACING / 2}px;
-  font-weight: 500;
-`;
-
-const AirQualityDescription = styled.div`
-  ${summary};
-  ${smallFont};
-  text-align: left;
-  margin-top: ${BASE_SPACING / 2}px;
-`;
 
 interface IAirQualityInfo {
   airQualityIndex: number;
@@ -36,24 +10,35 @@ interface IAirQualityInfo {
 }
 
 const AirQualityInfo: React.SFC<IAirQualityInfo> = (props) => {
+  const AirQuality = ContentSpacing.extend`
+    margin-top: 0;
+  `;
+
+  const AirQualityDescription = Text.extend`
+    font-size: ${(props) => props.theme.text.secondarySize};
+    margin-top: calc(${(props) => props.theme.spacing} / 2);
+  `;
+
+  const AirQualityAdvisory = AirQualityDescription.extend`
+    font-weight: 500;
+  `;
+
   const airQualityMeta = getCAQIMeta(Math.round(props.airQualityIndex));
 
   return (
-    <div className={props.className}>
-      <AirQuality>
-        <AirQualityLabel>Common Air Quality Index (CAQI)</AirQualityLabel>
-        <AirQualityValueBar airQualityIndex={props.airQualityIndex} />
-        <AirQualityLabel>Advisory</AirQualityLabel>
-        <AirQualityAdvisory>{airQualityMeta.advisory}</AirQualityAdvisory>
-        <AirQualityDescription>{airQualityMeta.description}</AirQualityDescription>
-      </AirQuality>
-    </div>
+    <AirQuality className={props.className}>
+      <Text>Common Air Quality Index (CAQI)</Text>
+      <AirQualityValueBar airQualityIndex={props.airQualityIndex} />
+      <Text>Advisory</Text>
+      <AirQualityAdvisory>{airQualityMeta.advisory}</AirQualityAdvisory>
+      <AirQualityDescription>{airQualityMeta.description}</AirQualityDescription>
+    </AirQuality>
   );
 };
 
-const AirQualityInfoStyled = styled(AirQualityInfo)`
+const StyledAirQualityInfo = styled(AirQualityInfo)`
   display: flex;
   align-items: center;
 `;
 
-export default AirQualityInfoStyled;
+export default StyledAirQualityInfo;

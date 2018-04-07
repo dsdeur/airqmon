@@ -8,12 +8,14 @@ export interface IThemeInterface {
     primaryBackgroundColor: string;
   };
   border: string;
+  borderColor: string;
   borderRadius: string;
   text: {
     primarySize: string;
     secondarySize: string;
     smallSize: string;
     primaryColor: string;
+    lightColor: string;
     errorColor: string;
     airQualityIndexColor: {
       $1: string;
@@ -35,12 +37,14 @@ export const LightTheme: IThemeInterface = {
     primaryBackgroundColor: '#dff0d8',
   },
   border: '1px solid #c2c0c2',
+  borderColor: 'c2c0c2',
   borderRadius: '6px',
   text: {
     primarySize: '10pt',
     secondarySize: '8pt',
     smallSize: '7pt',
     primaryColor: '#333',
+    lightColor: '#eaeaea',
     errorColor: '#cc0000',
     airQualityIndexColor: {
       $1: '#79bc6a',

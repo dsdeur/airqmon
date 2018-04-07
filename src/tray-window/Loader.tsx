@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { CenteredContent, ContentSpacing, Text } from '../parts';
+import { CenteredContent, ContentSpacing as LoaderSummary, CenteredText } from '../parts';
 import styled, { IStyleAwareProps, keyframes } from '../styled-components';
 
-const Loader: React.SFC<IStyleAwareProps> = (props) => {
-  const LoaderSummary = ContentSpacing.extend``;
-
+const Loader: React.SFC<IStyleAwareProps> = () => {
   const LoaderSpinner = styled.div`
     margin: auto;
     width: 50px;
@@ -54,10 +52,8 @@ const Loader: React.SFC<IStyleAwareProps> = (props) => {
 
   return (
     <CenteredContent>
-      <div className={props.className}>
-        <LoaderSummary>
-          <Text>Loading data&hellip;</Text>
-        </LoaderSummary>
+      <LoaderSummary>
+        <CenteredText>Loading data&hellip;</CenteredText>
         <LoaderSpinner>
           <Spinner1 />
           <Spinner2 />
@@ -65,7 +61,7 @@ const Loader: React.SFC<IStyleAwareProps> = (props) => {
           <Spinner4 />
           <Spinner5 />
         </LoaderSpinner>
-      </div>
+      </LoaderSummary>
     </CenteredContent>
   );
 };
