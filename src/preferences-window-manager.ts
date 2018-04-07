@@ -1,6 +1,5 @@
 import { BrowserWindow } from 'electron';
 import * as path from 'path';
-
 import { isDev } from './helpers';
 
 export default class PreferencesWindowManager {

@@ -1,5 +1,4 @@
 import { getCurrentPosition } from 'macos-location';
-
 import getLogger from './logger';
 import { userSettings } from './user-settings';
 

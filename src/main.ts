@@ -1,12 +1,11 @@
 import { app, ipcMain, shell } from 'electron';
-
 import { IAirlyCurrentMeasurement } from './airly';
 import { getCAQIMeta } from './caqi';
 import { isDev } from './helpers';
 import IPC_EVENTS from './ipc-events';
+import PreferencesWindowManager from './preferences-window-manager';
 import TrayWindowManager from './tray-window-manager';
 import { IUserSettings } from './user-settings';
-import PreferencesWindowManager from './preferences-window-manager';
 
 const keys = require('../keys.json');
 

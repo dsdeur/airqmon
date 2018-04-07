@@ -1,6 +1,5 @@
-import { BrowserWindow, BrowserWindowConstructorOptions, screen, Tray, Point } from 'electron';
+import { BrowserWindow, BrowserWindowConstructorOptions, Point, Tray, screen } from 'electron';
 import * as path from 'path';
-
 import viewer from './analytics';
 import { isDev } from './helpers';
 

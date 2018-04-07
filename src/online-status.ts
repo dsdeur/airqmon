@@ -1,5 +1,4 @@
 import { ipcRenderer } from 'electron';
-
 import IPC_EVENTS from './ipc-events';
 
 function updateOnlineStatus(): void {

@@ -2,8 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { ipcRenderer } from 'electron';
 import { EventEmitter } from 'events';
 import * as semver from 'semver';
-import { setTimeout, clearTimeout } from 'timers';
-
+import { clearTimeout, setTimeout } from 'timers';
 import IPC_EVENTS from './ipc-events';
 
 const CHECK_INTERVAL = 2 * 60 * 60 * 1000; // 2 hours

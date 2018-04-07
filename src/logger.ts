@@ -1,6 +1,5 @@
 import bunyan = require('bunyan');
 import { remote } from 'electron';
-
 import { isDev } from './helpers';
 
 function ConsoleStream() {}
