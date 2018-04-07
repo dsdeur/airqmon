@@ -1,24 +1,34 @@
 import * as React from 'react';
 
-import { Unit, MeasurementReadingUnit } from './MeasurementReadingUnit';
+import MeasurementReadingUnit, { Unit } from './MeasurementReadingUnit';
+import styled, { IStyleAwareProps } from '../../styled-components';
+import { CenteredText } from '../../parts';
 
-export interface IMeasurementReadingProps {
-  reading?: number;
+export interface IMeasurementReadingProps extends IStyleAwareProps {
   formatter?: (val: number) => string;
+  reading?: number;
   unit?: Unit;
 }
 
-export const MeasurementReading: React.SFC<IMeasurementReadingProps> = ({
-  reading,
+const MeasurementReading: React.SFC<IMeasurementReadingProps> = ({
   formatter,
+  reading,
   unit,
-  children,
+  ...props
 }) => (
-  <>
-    <div className="measurement__reading">
+  <div className={props.className}>
+    <CenteredText>
       {reading ? (formatter ? formatter(reading) : reading) : 'n/a'}
       {reading && unit ? <MeasurementReadingUnit unit={unit} /> : null}
-      {children}
-    </div>
-  </>
+      {props.children}
+    </CenteredText>
+  </div>
 );
+
+const StyledMeasurementReading = styled(MeasurementReading)`
+  > ${CenteredText} & {
+    font-size: calc(${(props) => props.theme.text.primarySize} + 1pt);
+  }
+`;
+
+export default StyledMeasurementReading;

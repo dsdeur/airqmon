@@ -1,11 +1,11 @@
 import * as React from 'react';
-
 import { IAirlyCurrentMeasurement } from '../../airly';
 import { Contaminants } from '../../contamination';
-import { formatters, Measurement } from './Measurement';
+import styled, { IStyleAwareProps } from '../../styled-components';
+import Measurement, { formatters } from './Measurement';
 import { Unit } from './MeasurementReadingUnit';
 
-interface IMeasurementPaneProps {
+interface IMeasurementPaneProps extends IStyleAwareProps {
   measurement?: IAirlyCurrentMeasurement;
 }
 
@@ -13,7 +13,7 @@ const MeasurementPane: React.SFC<IMeasurementPaneProps> = (props) => {
   const { measurement: { pm25, pm10, pm1, temperature, pressure, humidity } } = props;
 
   return (
-    <div className="measurement__pane">
+    <div className={props.className}>
       <Measurement
         contaminant={Contaminants.PM25}
         reading={pm25}
@@ -51,4 +51,11 @@ const MeasurementPane: React.SFC<IMeasurementPaneProps> = (props) => {
   );
 };
 
-export default MeasurementPane;
+const StyledMeasurementPane = styled(MeasurementPane)`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: ${(props) => props.theme.spacing};
+`;
+
+export default StyledMeasurementPane;

@@ -1,13 +1,13 @@
 import * as React from 'react';
-
 import {
-  Contaminants,
   CONTAMINATION_NORM_VALUES,
   CONTAMINATION_THRESHOLDS,
+  Contaminants,
   getContaminationThresholdIndex,
 } from '../../contamination';
-
-import { MeasurementReading, IMeasurementReadingProps } from './MeasurementReading';
+import { CenteredText, Text } from '../../parts';
+import styled, { IStyleAwareProps } from '../../styled-components';
+import MeasurementReading, { IMeasurementReadingProps } from './MeasurementReading';
 import { Unit } from './MeasurementReadingUnit';
 
 export const formatters: { [key: string]: (val: number) => string } = {
@@ -34,35 +34,77 @@ const CONTAMINANT_FORMATTERS = {
   [Contaminants.PM25]: formatters.significant,
 };
 
-export interface IMeasurementProps extends IMeasurementReadingProps {
+const MeasurementDescription = CenteredText.extend`
+  text-transform: uppercase;
+  color: ${(props) => props.theme.text.darkColor};
+  font-size: ${(props) => props.theme.text.secondarySize};
+`;
+
+interface IMeasurementNormProps extends IStyleAwareProps {
+  contaminationThresholdIndex?: number;
+}
+
+const MeasurementNormComponent: React.SFC<IMeasurementNormProps> = (props) => {
+  return (
+    <div className={props.className}>
+      <Text>{props.children}</Text>
+    </div>
+  );
+};
+
+const MeasurementNorm = styled(MeasurementNormComponent)`
+  > ${Text} & {
+    font-size: ${(props) => props.theme.text.secondarySize};
+    color: ${(props) =>
+      Number.isInteger(props.contaminationThresholdIndex)
+        ? props.theme.text.airQualityIndexColor[
+            `$${Math.min(props.contaminationThresholdIndex, 5)}`
+          ]
+        : props.theme.text.primaryColor};
+  }
+`;
+
+interface IMeasurementProps extends IMeasurementReadingProps, IStyleAwareProps {
   contaminant?: Contaminants;
   description?: string;
   norm?: number;
 }
 
-export const Measurement: React.SFC<IMeasurementProps> = ({
+const Measurement: React.SFC<IMeasurementProps> = ({
   contaminant,
   reading,
   description = CONTAMINANT_DESCRIPTIONS[contaminant],
   formatter = CONTAMINANT_FORMATTERS[contaminant],
   norm = CONTAMINATION_NORM_VALUES[contaminant],
   unit = CONTAMINANT_UNITS[contaminant],
+  ...props
 }) => {
   let normContent: JSX.Element = null;
   if (contaminant && CONTAMINATION_THRESHOLDS[contaminant]) {
-    const normContentClassName = `measurement__norm treshold-${getContaminationThresholdIndex(
-      contaminant,
-      reading,
-    )}`;
-    normContent = <div className={normContentClassName}>{(reading / norm * 100).toFixed(0)}%</div>;
+    normContent = (
+      <MeasurementNorm
+        contaminationThresholdIndex={getContaminationThresholdIndex(contaminant, reading)}
+      >
+        {(reading / norm * 100).toFixed(0)}%
+      </MeasurementNorm>
+    );
   }
 
   return (
-    <div className="measurement">
+    <div className={props.className}>
       <MeasurementReading reading={reading} unit={unit} formatter={formatter}>
         {normContent}
       </MeasurementReading>
-      <div className="measurement__description">{description}</div>
+      <MeasurementDescription>{description}</MeasurementDescription>
     </div>
   );
 };
+
+const StyledMeasurement = styled(Measurement)`
+  flex-basis: 50%;
+  flex-direction: row;
+  margin-top: 8px;
+`;
+
+export { IMeasurementProps };
+export default StyledMeasurement;

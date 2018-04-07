@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled, { IStyleAwareProps } from '../../styled-components';
 
 export enum Unit {
   PM = 'PM',
@@ -7,11 +8,11 @@ export enum Unit {
   PERCENT = 'PERCENT',
 }
 
-interface IMeasurementReadingUnitProps {
+interface IMeasurementReadingUnitProps extends IStyleAwareProps {
   unit: Unit;
 }
 
-export const MeasurementReadingUnit: React.SFC<IMeasurementReadingUnitProps> = (props) => {
+const MeasurementReadingUnit: React.SFC<IMeasurementReadingUnitProps> = (props) => {
   const content = {
     [Unit.PM]: (
       <>
@@ -27,5 +28,16 @@ export const MeasurementReadingUnit: React.SFC<IMeasurementReadingUnitProps> = (
     [Unit.PERCENT]: '%',
   }[props.unit];
 
-  return <div className="measurement__unit"> {content}</div>;
+  return <div className={props.className}>{content}</div>;
 };
+
+const StyledMeasurementReadingUnit = styled(MeasurementReadingUnit)`
+  display: inline;
+
+  &::before {
+    content: ' ';
+    white-space: pre;
+  }
+`;
+
+export default StyledMeasurementReadingUnit;

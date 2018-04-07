@@ -16,6 +16,7 @@ export interface IThemeInterface {
     smallSize: string;
     primaryColor: string;
     lightColor: string;
+    darkColor: string;
     errorColor: string;
     airQualityIndexColor: {
       $1: string;
@@ -45,6 +46,7 @@ export const LightTheme: IThemeInterface = {
     smallSize: '7pt',
     primaryColor: '#333',
     lightColor: '#eaeaea',
+    darkColor: '#666',
     errorColor: '#cc0000',
     airQualityIndexColor: {
       $1: '#79bc6a',
