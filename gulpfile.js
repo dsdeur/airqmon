@@ -6,7 +6,6 @@ const electronPackager = require('electron-packager');
 const { rebuild } = require('electron-rebuild');
 const gulp = require('gulp');
 const gulpSequence = require('gulp-sequence');
-const less = require('gulp-less');
 const del = require('del');
 const ts = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
@@ -69,17 +68,9 @@ gulp.task('build:html:release', () => {
     .pipe(gulp.dest('build'));
 });
 
-gulp.task('build:styles', () => {
-  return gulp
-    .src('src/index.less')
-    .pipe(less())
-    .pipe(gulp.dest('build'));
-});
-
 gulp.task('watch', ['build'], () => {
   gulp.watch(['src/**/*.{ts,tsx}', '!**/*.d.ts'], ['build:scripts']);
   gulp.watch(['src/**/*.html'], ['build:html']);
-  gulp.watch(['src/**/*.less'], ['build:styles']);
 
   gulp.watch(['build/**/*.js'], electron.restart);
   gulp.watch(['build/index.css'], electron.reload);
@@ -113,11 +104,8 @@ gulp.task('electron:package', () => {
   });
 });
 
-gulp.task('build', gulpSequence('clean', ['build:scripts', 'build:html', 'build:styles']));
-gulp.task(
-  'build:release',
-  gulpSequence('clean', ['build:scripts:release', 'build:html:release', 'build:styles']),
-);
+gulp.task('build', gulpSequence('clean', ['build:scripts', 'build:html']));
+gulp.task('build:release', gulpSequence('clean', ['build:scripts:release', 'build:html:release']));
 gulp.task('start', gulpSequence('watch', 'electron:start'));
 gulp.task('package', gulpSequence('build:release', 'electron:package'));
 
