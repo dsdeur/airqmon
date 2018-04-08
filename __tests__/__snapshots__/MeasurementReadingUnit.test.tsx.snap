@@ -1,18 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MeasurementReadingUnit renders correct unit for Unit.PERCENT 1`] = `" %"`;
+exports[`<MeasurementReadingUnit /> renders correct unit for Unit.PERCENT 1`] = `"%"`;
 
-exports[`MeasurementReadingUnit renders correct unit for Unit.PM 1`] = `" μg/m3"`;
+exports[`<MeasurementReadingUnit /> renders correct unit for Unit.PM 1`] = `"μg/m3"`;
 
-exports[`MeasurementReadingUnit renders correct unit for Unit.PRESSURE_PA 1`] = `" hPA"`;
+exports[`<MeasurementReadingUnit /> renders correct unit for Unit.PRESSURE_PA 1`] = `"hPA"`;
 
-exports[`MeasurementReadingUnit renders correct unit for Unit.TEMP_C 1`] = `" °C"`;
+exports[`<MeasurementReadingUnit /> renders correct unit for Unit.TEMP_C 1`] = `"°C"`;
 
-exports[`MeasurementReadingUnit renders correctly 1`] = `
+exports[`<MeasurementReadingUnit /> renders correctly 1`] = `
+.c0 {
+  display: inline;
+}
+
+.c0::before {
+  content: ' ';
+  white-space: pre;
+}
+
 <div
-  className="measurement__unit"
+  className="c0"
 >
-   
   %
 </div>
 `;

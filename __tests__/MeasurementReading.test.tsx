@@ -1,14 +1,22 @@
-import * as React from 'react';
 import { shallow } from 'enzyme';
+import * as React from 'react';
+import { LightTheme } from '../src/theme';
 import MeasurementReading from '../src/tray-window/measurement/MeasurementReading';
-import { Unit } from '../src/tray-window/measurement/MeasurementReadingUnit';
+import MeasurementReadingUnit, {
+  Unit,
+} from '../src/tray-window/measurement/MeasurementReadingUnit';
+import { shallowWithTheme } from './test-helpers';
+import { wrap } from 'module';
+import { CenteredText } from '../src/parts';
 
-jest.mock('../src/tray-window/measurement/MeasurementReadingUnit', () => ({
-  ...require.requireActual('../src/tray-window/measurement/MeasurementReadingUnit'),
-  MeasurementReadingUnit: 'MeasurementReadingUnit',
-}));
+function getWrapper({ props = {}, children = null } = {}) {
+  return shallowWithTheme(
+    <MeasurementReading {...props}>{children}</MeasurementReading>,
+    LightTheme,
+  ).dive();
+}
 
-describe('MeasurementReading', () => {
+describe('<MeasurementReading />', () => {
   const reading = 1.23;
   const formatter = jest.fn((val) => val.toFixed(0));
 
@@ -17,29 +25,40 @@ describe('MeasurementReading', () => {
   });
 
   it('renders correctly', () => {
-    const wrapper = shallow(<MeasurementReading reading={reading} formatter={formatter} />);
+    const wrapper = getWrapper({ props: { reading, formatter } });
+
     expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find(CenteredText)).toHaveLength(1);
+  });
+
+  it('calls provided formatter', () => {
+    const wrapper = getWrapper({ props: { reading, formatter } });
+
     expect(formatter).toHaveBeenCalledTimes(1);
     expect(formatter).toHaveBeenCalledWith(reading);
-    expect(wrapper.childAt(0).hasClass('measurement__reading')).toBe(true);
   });
 
   it('renders correctly without formatter', () => {
-    const wrapper = shallow(<MeasurementReading reading={reading} />);
+    const wrapper = getWrapper({ props: { reading } });
+
     expect(wrapper).toMatchSnapshot();
   });
 
   it('renders passed children', () => {
-    const wrapper = shallow(
-      <MeasurementReading reading={reading}>
-        <div>A children node</div>
-      </MeasurementReading>,
-    );
+    const wrapper = getWrapper({ props: { reading }, children: <div>A children node</div> });
+
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('Renders MeasurementReadingUnit if unit is provided', () => {
-    const wrapper = shallow(<MeasurementReading reading={reading} unit={Unit.PRESSURE_PA} />);
-    expect(wrapper).toMatchSnapshot();
+  it('Does not render <MeasurementReadingUnit /> if unit is not provided', () => {
+    const wrapper = getWrapper({ props: { reading } });
+
+    expect(wrapper.find(MeasurementReadingUnit)).toHaveLength(0);
+  });
+
+  it('Renders <MeasurementReadingUnit /> if unit is provided', () => {
+    const wrapper = getWrapper({ props: { reading, unit: Unit.PRESSURE_PA } });
+
+    expect(wrapper.find(MeasurementReadingUnit)).toHaveLength(1);
   });
 });

@@ -1,47 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MeasurementReading Renders MeasurementReadingUnit if unit is provided 1`] = `
-<React.Fragment>
-  <div
-    className="measurement__reading"
-  >
-    1.23
-    <MeasurementReadingUnit
-      unit="PRESSURE_PA"
-    />
-  </div>
-</React.Fragment>
-`;
+exports[`<MeasurementReading /> renders correctly 1`] = `
+.c0 > .sc-EHOje {
+  font-size: calc(10pt + 1pt);
+}
 
-exports[`MeasurementReading renders correctly 1`] = `
-<React.Fragment>
-  <div
-    className="measurement__reading"
-  >
+<div
+  className="c0"
+>
+  <CenteredText>
     1
-  </div>
-</React.Fragment>
+  </CenteredText>
+</div>
 `;
 
-exports[`MeasurementReading renders correctly without formatter 1`] = `
-<React.Fragment>
-  <div
-    className="measurement__reading"
-  >
+exports[`<MeasurementReading /> renders correctly without formatter 1`] = `
+.c0 > .sc-EHOje {
+  font-size: calc(10pt + 1pt);
+}
+
+<div
+  className="c0"
+>
+  <CenteredText>
     1.23
-  </div>
-</React.Fragment>
+  </CenteredText>
+</div>
 `;
 
-exports[`MeasurementReading renders passed children 1`] = `
-<React.Fragment>
-  <div
-    className="measurement__reading"
-  >
+exports[`<MeasurementReading /> renders passed children 1`] = `
+.c0 > .sc-EHOje {
+  font-size: calc(10pt + 1pt);
+}
+
+<div
+  className="c0"
+>
+  <CenteredText>
     1.23
     <div>
       A children node
     </div>
-  </div>
-</React.Fragment>
+  </CenteredText>
+</div>
 `;
