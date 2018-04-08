@@ -69,11 +69,10 @@ gulp.task('build:html:release', () => {
 });
 
 gulp.task('watch', ['build'], () => {
-  gulp.watch(['src/**/*.{ts,tsx}', '!**/*.d.ts'], ['build:scripts']);
+  gulp.watch(['src/**/*.{ts,tsx}'], ['build:scripts']);
   gulp.watch(['src/**/*.html'], ['build:html']);
 
-  gulp.watch(['build/**/*.js'], electron.restart);
-  gulp.watch(['build/index.css'], electron.reload);
+  gulp.watch(['build/**/*.js'], electron.reload);
   gulp.watch(['build/**/*.html'], electron.reload);
 });
 
