@@ -13,21 +13,25 @@ function getContext(theme) {
 function shallowWithTheme(tree, theme, options = {}) {
   const context = getContext(theme);
 
-  return shallow(tree, {
-    ...options,
-    context,
-    childContextTypes: ThemeProvider.childContextTypes,
-  });
+  return shallow(
+    tree,
+    Object.assign({}, options, {
+      context,
+      childContextTypes: ThemeProvider.childContextTypes,
+    }),
+  );
 }
 
 function mountWithTheme(tree, theme, options = {}) {
   const context = getContext(theme);
 
-  return mount(tree, {
-    ...options,
-    context,
-    childContextTypes: ThemeProvider.childContextTypes,
-  });
+  return mount(
+    tree,
+    Object.assign({}, options, {
+      context,
+      childContextTypes: ThemeProvider.childContextTypes,
+    }),
+  );
 }
 
 module.exports = {
