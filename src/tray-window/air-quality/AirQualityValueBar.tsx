@@ -77,9 +77,25 @@ interface IAQValueOverlayProps extends IStyleAwareProps, React.HTMLAttributes<HT
   style?: any;
 }
 
-const AQValueOverlayComponent: React.SFC<IAQValueOverlayProps> = (props) => {
-  return <div className={props.className}>{props.children}</div>;
-};
+class AQValueOverlayComponent extends React.Component<IAQValueOverlayProps> {
+  private _ref: HTMLDivElement;
+
+  constructor(props: IAQValueOverlayProps) {
+    super(props);
+  }
+
+  get ref() {
+    return this._ref;
+  }
+
+  render() {
+    return (
+      <div ref={(div) => (this._ref = div)} className={this.props.className}>
+        {this.props.children}
+      </div>
+    );
+  }
+}
 
 const AQValueOverlay = styled(AQValueOverlayComponent)`
   position: absolute;
@@ -109,8 +125,8 @@ interface IAQValueBarState {
 }
 
 class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarState> {
-  private valueBarNode: HTMLDivElement;
-  private overlayNode: HTMLDivElement;
+  private valueBarRef: HTMLDivElement;
+  private overlayRef: HTMLDivElement;
 
   constructor(props: IAQValueBarProps) {
     super(props);
@@ -121,15 +137,18 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
       medCAQI: getCAQIMeta((CAQI_MIN_VAL + CAQI_MAX_VAL) / 2 + 1),
       maxCAQI: getCAQIMeta(CAQI_MAX_VAL + 1),
     };
+
+    this.setValueBarRef = this.setValueBarRef.bind(this);
+    this.setOverlayRef = this.setOverlayRef.bind(this);
   }
 
   componentDidMount(): void {
-    const elBoundingBox = this.valueBarNode.getBoundingClientRect();
+    const elBoundingBox = this.valueBarRef.getBoundingClientRect();
 
     this.setState({
       hasRefs: true,
       elBoundingBox,
-      overlayElBoundingBox: this.overlayNode.getBoundingClientRect(),
+      overlayElBoundingBox: this.overlayRef.getBoundingClientRect(),
     });
   }
 
@@ -139,7 +158,7 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
 
     if (this.state.hasRefs) {
       const ratio: number =
-        (this.valueBarNode.childElementCount - 1) / this.valueBarNode.childElementCount;
+        (this.valueBarRef.childElementCount - 1) / this.valueBarRef.childElementCount;
 
       top = (this.state.elBoundingBox.height - this.state.overlayElBoundingBox.height) / 2;
       left =
@@ -157,6 +176,14 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
     };
   }
 
+  setValueBarRef(node) {
+    this.valueBarRef = node;
+  }
+
+  setOverlayRef(node) {
+    this.overlayRef = node.ref;
+  }
+
   render() {
     const airQualityMeta = getCAQIMeta(Math.round(this.props.airQualityIndex));
 
@@ -172,14 +199,7 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
 
     return (
       <div className={this.props.className}>
-        <AQValueBarValues
-          // tslint:disable-next-line:jsx-no-lambda
-          innerRef={(node) => {
-            this.valueBarNode = node;
-          }}
-        >
-          {aqValueBarValues}
-        </AQValueBarValues>
+        <AQValueBarValues innerRef={this.setValueBarRef}>{aqValueBarValues}</AQValueBarValues>
         <AQValueBarLabels>
           <AQValueBarLabel>{this.state.minCAQI.labels.airQuality}</AQValueBarLabel>
           <AQValueBarLabel>{this.state.medCAQI.labels.airQuality}</AQValueBarLabel>
@@ -188,10 +208,7 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
         <AQValueOverlay
           style={this.getOverlayStyle()}
           caqi={airQualityMeta.index}
-          // tslint:disable-next-line:jsx-no-lambda
-          innerRef={(node) => {
-            this.overlayNode = node;
-          }}
+          innerRef={this.setOverlayRef}
         >
           {this.props.airQualityIndex.toFixed(0)}
         </AQValueOverlay>
