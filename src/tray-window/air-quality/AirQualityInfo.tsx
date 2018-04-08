@@ -10,10 +10,6 @@ interface IAirQualityInfo {
 }
 
 const AirQualityInfo: React.SFC<IAirQualityInfo> = (props) => {
-  const AirQuality = ContentSpacing.extend`
-    margin-top: 0;
-  `;
-
   const AirQualityDescription = Text.extend`
     font-size: ${(props) => props.theme.text.secondarySize};
     margin-top: calc(${(props) => props.theme.spacing} / 2);
@@ -23,22 +19,25 @@ const AirQualityInfo: React.SFC<IAirQualityInfo> = (props) => {
     font-weight: 500;
   `;
 
+  const Header = Text.extend`
+    font-weight: 400;
+  `;
+
   const airQualityMeta = getCAQIMeta(Math.round(props.airQualityIndex));
 
   return (
-    <AirQuality className={props.className}>
-      <Text>Common Air Quality Index (CAQI)</Text>
+    <ContentSpacing className={props.className}>
+      <Header>Common Air Quality Index (CAQI)</Header>
       <AirQualityValueBar airQualityIndex={props.airQualityIndex} />
-      <Text>Advisory</Text>
+      <Header>Advisory</Header>
       <AirQualityAdvisory>{airQualityMeta.advisory}</AirQualityAdvisory>
       <AirQualityDescription>{airQualityMeta.description}</AirQualityDescription>
-    </AirQuality>
+    </ContentSpacing>
   );
 };
 
 const StyledAirQualityInfo = styled(AirQualityInfo)`
-  display: flex;
-  align-items: center;
+  display: block;
 `;
 
 export default StyledAirQualityInfo;

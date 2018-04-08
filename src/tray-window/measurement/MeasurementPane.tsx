@@ -4,6 +4,7 @@ import { Contaminants } from '../../contamination';
 import styled, { IStyleAwareProps } from '../../styled-components';
 import Measurement, { formatters } from './Measurement';
 import { Unit } from './MeasurementReadingUnit';
+import { ContentSpacing } from '../../parts';
 
 interface IMeasurementPaneProps extends IStyleAwareProps {
   measurement?: IAirlyCurrentMeasurement;
@@ -13,7 +14,7 @@ const MeasurementPane: React.SFC<IMeasurementPaneProps> = (props) => {
   const { measurement: { pm25, pm10, pm1, temperature, pressure, humidity } } = props;
 
   return (
-    <div className={props.className}>
+    <ContentSpacing className={props.className}>
       <Measurement
         contaminant={Contaminants.PM25}
         reading={pm25}
@@ -47,7 +48,7 @@ const MeasurementPane: React.SFC<IMeasurementPaneProps> = (props) => {
         reading={humidity}
         formatter={formatters.toFixed2}
       />
-    </div>
+    </ContentSpacing>
   );
 };
 
@@ -55,7 +56,6 @@ const StyledMeasurementPane = styled(MeasurementPane)`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: ${(props) => props.theme.spacing};
 `;
 
 export default StyledMeasurementPane;

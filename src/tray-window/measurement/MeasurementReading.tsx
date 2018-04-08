@@ -28,7 +28,7 @@ const MeasurementReading: React.SFC<IMeasurementReadingProps> = ({
 const StyledMeasurementReading = styled(MeasurementReading)`
   /**/
   > ${CenteredText} {
-    font-size: calc(${(props) => props.theme.text.primarySize} + 1pt);
+    font-size: calc(${(props) => props.theme.text.primarySize} + 0.1em);
   }
 `;
 

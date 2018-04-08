@@ -16,5 +16,9 @@ interface IStyleAwareProps {
   theme?: IThemeInterface;
 }
 
-export { css, injectGlobal, keyframes, ThemeProvider, IStyleAwareProps };
+interface IDOMRefProvider {
+  readonly ref: HTMLElement;
+}
+
+export { css, injectGlobal, keyframes, ThemeProvider, IStyleAwareProps, IDOMRefProvider };
 export default styled;

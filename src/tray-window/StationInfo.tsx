@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IArilyNearestSensorMeasurement } from '../airly';
-import { ContentSpacing, Icon, Link, PhotonIcon, Text } from '../parts';
+import { ContentSpacing, Icon, Link, PhotonIcon, CenteredText } from '../parts';
 import styled, { IStyleAwareProps } from '../styled-components';
 
 interface IStationInfoProps extends IStyleAwareProps {
@@ -10,26 +10,23 @@ interface IStationInfoProps extends IStyleAwareProps {
 
 const StationInfo: React.SFC<IStationInfoProps> = ({ station, ...props }) => {
   return (
-    <div className={props.className}>
-      <ContentSpacing>
+    <ContentSpacing className={props.className}>
+      <CenteredText>
         <Link href="#" onClick={props.onClickHandler}>
           <Icon icon={PhotonIcon.direction} />
           {`${station.address.locality}, ${station.address.route}`}
         </Link>
-        <Text>Distance to station {(station.distance / 1000).toFixed(1)} km</Text>
-      </ContentSpacing>
-    </div>
+      </CenteredText>
+      <CenteredText>Distance to station {(station.distance / 1000).toFixed(1)} km</CenteredText>
+    </ContentSpacing>
   );
 };
 
 const StyledStationInfo = styled(StationInfo)`
   margin-top: ${(props) => props.theme.spacing};
 
-  /**/
-  > ${ContentSpacing} {
-    > ${Text}, > ${Link} {
-      font-size: ${(props) => props.theme.text.smallSize};
-    }
+  > ${CenteredText} {
+    font-size: ${(props) => props.theme.text.smallSize};
   }
 `;
 

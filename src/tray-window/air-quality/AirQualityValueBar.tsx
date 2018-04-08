@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { CAQI_INDEX, CAQI_MAX_VAL, CAQI_MIN_VAL, ICAQIMetadata, getCAQIMeta } from '../../caqi';
-import styled, { IStyleAwareProps } from '../../styled-components';
+import styled, { IStyleAwareProps, IDOMRefProvider } from '../../styled-components';
 import { Text } from '../../parts';
+import AirQualityValueOverlay from './AirQualityValueOverlay';
 
 interface IAQValueBarValueProps extends IStyleAwareProps {
   caqi: number;
@@ -15,11 +16,12 @@ const AQValueBarValue = styled(AQValueBarValueComponent)`
   flex: 1;
   margin: 1px 0 1px 1px;
   padding: 1px 6px;
-  color: ${(props) => props.theme.text.airQualityIndexColor[`$${props.caqi}`]};
+  background-color: ${(props) => props.theme.text.airQualityIndexColor[`$${props.caqi}`]};
 `;
 
-const AQValueBarValues = styled.div`
+const AQValueBarValues = Text.extend`
   display: flex;
+  font-size: ${(props) => props.theme.text.secondarySize};
   background-color: ${(props) => props.theme.borderColor};
   border-radius: ${(props) => props.theme.borderRadius};
   color: ${(props) => props.theme.text.lightColor};
@@ -42,6 +44,7 @@ const AQValueBarValues = styled.div`
 
 const AQValueBarLabel = Text.extend`
   flex: 1;
+  font-size: ${(props) => props.theme.text.secondarySize};
   text-align: center;
 `;
 
@@ -66,51 +69,6 @@ const AQValueBarLabels = styled.div`
   }
 `;
 
-interface IAQValueOverlayInlineStyle {
-  visible: 'hidden' | 'visible';
-  top: number;
-  left: number;
-}
-
-interface IAQValueOverlayProps extends IStyleAwareProps, React.HTMLAttributes<HTMLDivElement> {
-  caqi: number;
-  style?: any;
-}
-
-class AQValueOverlayComponent extends React.Component<IAQValueOverlayProps> {
-  private _ref: HTMLDivElement;
-
-  constructor(props: IAQValueOverlayProps) {
-    super(props);
-  }
-
-  get ref() {
-    return this._ref;
-  }
-
-  render() {
-    return (
-      <div ref={(div) => (this._ref = div)} className={this.props.className}>
-        {this.props.children}
-      </div>
-    );
-  }
-}
-
-const AQValueOverlay = styled(AQValueOverlayComponent)`
-  position: absolute;
-  width: 35px;
-  line-height: 2.25;
-  color: ${(props) => props.theme.text.lightColor};
-  font-weight: 400;
-  text-align: center;
-  border-radius: ${(props) => props.theme.borderRadius};
-  border: ${(props) => props.theme.border};
-  box-shadow: 2px 2px 8px 0px rgba(153, 153, 153, 0.5);
-  transition: left 0.33s linear;
-  background-color: ${(props) => props.theme.text.airQualityIndexColor[`$${props.caqi}`]};
-`;
-
 interface IAQValueBarProps extends IStyleAwareProps {
   airQualityIndex: number;
 }
@@ -125,8 +83,8 @@ interface IAQValueBarState {
 }
 
 class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarState> {
-  private valueBarRef: HTMLDivElement;
-  private overlayRef: HTMLDivElement;
+  private valueBarRef: HTMLElement;
+  private overlayRef: IDOMRefProvider;
 
   constructor(props: IAQValueBarProps) {
     super(props);
@@ -143,16 +101,14 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
   }
 
   componentDidMount(): void {
-    const elBoundingBox = this.valueBarRef.getBoundingClientRect();
-
     this.setState({
       hasRefs: true,
-      elBoundingBox,
-      overlayElBoundingBox: this.overlayRef.getBoundingClientRect(),
+      elBoundingBox: this.valueBarRef.getBoundingClientRect(),
+      overlayElBoundingBox: this.overlayRef.ref.getBoundingClientRect(),
     });
   }
 
-  getOverlayStyle(): IAQValueOverlayInlineStyle {
+  getOverlayStyleProps(): { visibility: 'hidden' | 'visible'; top: number; left: number } {
     let top: number = 0;
     let left: number = 0;
 
@@ -170,7 +126,7 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
     }
 
     return {
-      visible: this.state.hasRefs ? 'visible' : 'hidden',
+      visibility: this.state.hasRefs ? 'visible' : 'hidden',
       top,
       left,
     };
@@ -181,7 +137,7 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
   }
 
   setOverlayRef(node) {
-    this.overlayRef = node.ref;
+    this.overlayRef = node;
   }
 
   render() {
@@ -205,13 +161,13 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
           <AQValueBarLabel>{this.state.medCAQI.labels.airQuality}</AQValueBarLabel>
           <AQValueBarLabel>{this.state.maxCAQI.labels.airQuality}</AQValueBarLabel>
         </AQValueBarLabels>
-        <AQValueOverlay
-          style={this.getOverlayStyle()}
+        <AirQualityValueOverlay
           caqi={airQualityMeta.index}
           innerRef={this.setOverlayRef}
+          {...this.getOverlayStyleProps()}
         >
           {this.props.airQualityIndex.toFixed(0)}
-        </AQValueOverlay>
+        </AirQualityValueOverlay>
       </div>
     );
   }
@@ -220,6 +176,7 @@ class AirQualityValueBar extends React.Component<IAQValueBarProps, IAQValueBarSt
 const AirQualityValueBarStyled = styled(AirQualityValueBar)`
   position: relative;
   margin-top: ${(props) => props.theme.spacing};
+  margin-bottom: ${(props) => props.theme.spacing};
 `;
 
 export default AirQualityValueBarStyled;

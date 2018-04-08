@@ -11,7 +11,9 @@ viewer.screenview('Tray window', 'Airqmon').send();
 
 injectGlobal`
   @font-face {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSDisplay-Regular', 'Helvetica Neue', Helvetica, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, '.SFNSDisplay-Regular', 'Helvetica Neue', 'Lucida Grande', sans-serif;
+    font-size: 1.1em;
+    line-height: 1.5;
   }
 `;
 

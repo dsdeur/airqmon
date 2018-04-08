@@ -5,7 +5,7 @@ import {
   Contaminants,
   getContaminationThresholdIndex,
 } from '../../contamination';
-import { CenteredText, Text } from '../../parts';
+import { CenteredText } from '../../parts';
 import styled, { IStyleAwareProps } from '../../styled-components';
 import MeasurementReading, { IMeasurementReadingProps } from './MeasurementReading';
 import { Unit } from './MeasurementReadingUnit';
@@ -45,24 +45,15 @@ interface IMeasurementNormProps extends IStyleAwareProps {
 }
 
 const MeasurementNormComponent: React.SFC<IMeasurementNormProps> = (props) => {
-  return (
-    <div className={props.className}>
-      <Text>{props.children}</Text>
-    </div>
-  );
+  return <CenteredText className={props.className}>{props.children}</CenteredText>;
 };
 
 const MeasurementNorm = styled(MeasurementNormComponent)`
-  /**/
-  > ${Text} {
-    font-size: ${(props) => props.theme.text.secondarySize};
-    color: ${(props) =>
-      Number.isInteger(props.contaminationThresholdIndex)
-        ? props.theme.text.airQualityIndexColor[
-            `$${Math.min(props.contaminationThresholdIndex, 5)}`
-          ]
-        : props.theme.text.primaryColor};
-  }
+  font-size: ${(props) => props.theme.text.secondarySize};
+  color: ${(props) =>
+    Number.isInteger(props.contaminationThresholdIndex)
+      ? props.theme.text.airQualityIndexColor[`$${Math.min(props.contaminationThresholdIndex, 5)}`]
+      : props.theme.text.primaryColor};
 `;
 
 interface IMeasurementProps extends IMeasurementReadingProps, IStyleAwareProps {

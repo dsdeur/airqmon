@@ -24,7 +24,7 @@ interface ITrayWindowProps extends IStyleAwareProps {
 
 const TrayWindow: React.SFC<ITrayWindowProps> = (props) => {
   return (
-    <div className={props.className}>
+    <div className={`window ${props.className}`}>
       <WindowHeader />
       <ErrorBoundary>
         <WindowContent

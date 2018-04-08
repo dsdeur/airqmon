@@ -436,7 +436,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
     return (
       <ThemeProvider theme={this.state.appTheme}>
-        <div>
+        <div className={this.props.className}>
           <HeaderArrow />
           <TrayWindow
             airlyApiStatus={this.state.airlyApiStatus}

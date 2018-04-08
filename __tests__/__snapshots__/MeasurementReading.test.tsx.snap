@@ -2,7 +2,7 @@
 
 exports[`<MeasurementReading /> renders correctly 1`] = `
 .c0 > .sc-EHOje {
-  font-size: calc(10pt + 1pt);
+  font-size: calc(1em + 0.1em);
 }
 
 <div
@@ -16,7 +16,7 @@ exports[`<MeasurementReading /> renders correctly 1`] = `
 
 exports[`<MeasurementReading /> renders correctly without formatter 1`] = `
 .c0 > .sc-EHOje {
-  font-size: calc(10pt + 1pt);
+  font-size: calc(1em + 0.1em);
 }
 
 <div
@@ -30,7 +30,7 @@ exports[`<MeasurementReading /> renders correctly without formatter 1`] = `
 
 exports[`<MeasurementReading /> renders passed children 1`] = `
 .c0 > .sc-EHOje {
-  font-size: calc(10pt + 1pt);
+  font-size: calc(1em + 0.1em);
 }
 
 <div
