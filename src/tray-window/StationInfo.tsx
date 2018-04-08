@@ -25,7 +25,8 @@ const StationInfo: React.SFC<IStationInfoProps> = ({ station, ...props }) => {
 const StyledStationInfo = styled(StationInfo)`
   margin-top: ${(props) => props.theme.spacing};
 
-  > ${ContentSpacing} & {
+  /**/
+  > ${ContentSpacing} {
     > ${Text}, > ${Link} {
       font-size: ${(props) => props.theme.text.smallSize};
     }

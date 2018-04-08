@@ -53,7 +53,8 @@ const MeasurementNormComponent: React.SFC<IMeasurementNormProps> = (props) => {
 };
 
 const MeasurementNorm = styled(MeasurementNormComponent)`
-  > ${Text} & {
+  /**/
+  > ${Text} {
     font-size: ${(props) => props.theme.text.secondarySize};
     color: ${(props) =>
       Number.isInteger(props.contaminationThresholdIndex)
