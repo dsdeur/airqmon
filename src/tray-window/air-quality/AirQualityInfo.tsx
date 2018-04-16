@@ -12,16 +12,14 @@ interface IAirQualityInfo {
 const AirQualityInfo: React.SFC<IAirQualityInfo> = (props) => {
   const AirQualityDescription = Text.extend`
     font-size: ${(props) => props.theme.text.secondarySize};
-    margin-top: calc(${(props) => props.theme.spacing} / 2);
+    margin-top: ${(props) => props.theme.spacing};
   `;
 
   const AirQualityAdvisory = AirQualityDescription.extend`
     font-weight: 500;
   `;
 
-  const Header = Text.extend`
-    font-weight: 400;
-  `;
+  const Header = Text;
 
   const airQualityMeta = getCAQIMeta(Math.round(props.airQualityIndex));
 

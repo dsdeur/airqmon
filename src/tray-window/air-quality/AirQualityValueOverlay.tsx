@@ -1,41 +1,65 @@
 import * as React from 'react';
 
-import styled, { IStyleAwareProps, IDOMRefProvider } from '../../styled-components';
+import styled, { IStyleAwareProps } from '../../styled-components';
+import { getCAQIMeta, CAQI_INDEX_VALUES } from '../../caqi';
 
-interface IAQValueOverlayProps extends IStyleAwareProps, React.HTMLAttributes<HTMLDivElement> {
-  caqi: number;
-  visibility: 'visible' | 'hidden';
-  top: number;
-  left: number;
+const MAX_LEFT = 14.625;
+
+interface IAQValueOverlayProps extends IStyleAwareProps {
+  airQualityIndex: number;
+  ratio: number;
 }
 
-class AirQualityValueOverlay extends React.Component<IAQValueOverlayProps>
-  implements IDOMRefProvider {
-  private _ref: HTMLDivElement;
-
+class AirQualityValueOverlay extends React.Component<IAQValueOverlayProps> {
   constructor(props: IAQValueOverlayProps) {
     super(props);
   }
 
-  get ref() {
-    return this._ref;
-  }
-
   render() {
+    const airQualityIndex = Math.round(this.props.airQualityIndex);
+    const airQualityMeta = getCAQIMeta(airQualityIndex);
+    const left = `${
+      airQualityIndex >= 125
+        ? MAX_LEFT
+        : this.props.airQualityIndex * MAX_LEFT * this.props.ratio / 100
+    }rem`;
+
     return (
-      <div ref={(node) => (this._ref = node)} className={this.props.className}>
-        {this.props.children}
-      </div>
+      <StyledAirQualityValueOverlayElement caqi={airQualityMeta.index} style={{ left }}>
+        {airQualityIndex}
+      </StyledAirQualityValueOverlayElement>
     );
   }
 }
 
-const StyledAirQualityValueOverlay = styled(AirQualityValueOverlay)`
+interface IAirQualityValueOverlayElement
+  extends IStyleAwareProps,
+    React.HTMLAttributes<HTMLDivElement> {
+  caqi: CAQI_INDEX_VALUES;
+}
+
+const AirQualityValueOverlayElement: React.SFC<IAirQualityValueOverlayElement> = ({
+  className,
+  children,
+  ...props
+}) => {
+  return (
+    <div className={className} {...props}>
+      {children}
+    </div>
+  );
+};
+
+const StyledAirQualityValueOverlayElement = styled(AirQualityValueOverlayElement)`
   position: absolute;
-  width: 35px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 2.5rem;
+  height: 2.25rem;
+  top: -0.35rem;
   color: ${(props) => props.theme.text.lightColor};
-  font-size: calc(${(props) => props.theme.text.primarySize} + 0.1em);
-  line-height: 2.25;
+  font-size: 1.05em;
   font-weight: 400;
   text-align: center;
   border-radius: ${(props) => props.theme.borderRadius};
@@ -43,9 +67,6 @@ const StyledAirQualityValueOverlay = styled(AirQualityValueOverlay)`
   box-shadow: 2px 2px 8px 0px rgba(153, 153, 153, 0.5);
   transition: left 0.33s linear;
   background-color: ${(props) => props.theme.text.airQualityIndexColor[`$${props.caqi}`]};
-  visibility: ${(props) => props.visibility};
-  top: ${(props) => props.top}px;
-  left: ${(props) => props.left}px;
 `;
 
-export default StyledAirQualityValueOverlay;
+export default AirQualityValueOverlay;

@@ -29,7 +29,7 @@ export interface IThemeInterface {
 }
 
 export const LightTheme: IThemeInterface = {
-  spacing: '0.8em',
+  spacing: '0.375rem',
   background: {
     primaryColor: '#ffffff',
     darkColor: '#ececec',
@@ -42,7 +42,7 @@ export const LightTheme: IThemeInterface = {
   borderRadius: '6px',
   text: {
     primarySize: '1em',
-    secondarySize: '0.8em',
+    secondarySize: '0.85em',
     smallSize: '0.75em',
     primaryColor: '#333',
     lightColor: '#eaeaea',

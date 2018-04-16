@@ -23,7 +23,7 @@ const StationInfo: React.SFC<IStationInfoProps> = ({ station, ...props }) => {
 };
 
 const StyledStationInfo = styled(StationInfo)`
-  margin-top: ${(props) => props.theme.spacing};
+  margin-top: calc(${(props) => props.theme.spacing} * 2);
 
   > ${CenteredText} {
     font-size: ${(props) => props.theme.text.smallSize};

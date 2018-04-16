@@ -26,7 +26,7 @@ const WindowFooter: React.SFC<IWindowFooterProps> = (props) => {
   const FooterText = Text.extend`
     margin-top: 10px;
     padding-left: 10px;
-    font-size: ${(props) => props.theme.text.smallSize};
+    font-size: 0.7em;
     float: left;
   `;
 
