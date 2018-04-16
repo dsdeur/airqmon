@@ -7,7 +7,7 @@
     "outDir": "build",
     "typeRoots": ["types"],
     "jsx": "react",
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": false,
     "allowJs": true,
     "alwaysStrict": true,
     "sourceMap": true,
