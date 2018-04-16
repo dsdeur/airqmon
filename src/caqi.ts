@@ -1,7 +1,9 @@
 // tslint:disable:max-line-length
 
+export type CAQI_INDEX_VALUES = 1 | 2 | 3 | 4 | 5;
+
 export interface ICAQIMetadata {
-  index: 1 | 2 | 3 | 4 | 5;
+  index: CAQI_INDEX_VALUES;
   values: {
     min: number;
     max: number;
