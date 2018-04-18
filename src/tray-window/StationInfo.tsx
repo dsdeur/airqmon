@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { IArilyNearestSensorMeasurement } from '../airly';
-import { ContentSpacing, Icon, Link, PhotonIcon, CenteredText } from '../parts';
+import { ContentSpacing, Icon as BaseIcon, Link, PhotonIcon, CenteredText } from '../parts';
 import styled, { IStyleAwareProps } from '../styled-components';
+
+const Icon = styled(BaseIcon)`
+  margin-right: 4px;
+`;
 
 interface IStationInfoProps extends IStyleAwareProps {
   station: IArilyNearestSensorMeasurement;
