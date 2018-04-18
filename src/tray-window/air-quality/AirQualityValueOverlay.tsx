@@ -3,7 +3,7 @@ import * as React from 'react';
 import styled, { IStyleAwareProps } from '../../styled-components';
 import { getCAQIMeta, CAQI_INDEX_VALUES } from '../../caqi';
 
-const MAX_LEFT = 14.625;
+const MAX_LEFT = 234; // px
 
 interface IAQValueOverlayProps extends IStyleAwareProps {
   airQualityIndex: number;
@@ -22,7 +22,7 @@ class AirQualityValueOverlay extends React.Component<IAQValueOverlayProps> {
       airQualityIndex >= 125
         ? MAX_LEFT
         : this.props.airQualityIndex * MAX_LEFT * this.props.ratio / 100
-    }rem`;
+    }px`;
 
     return (
       <StyledAirQualityValueOverlayElement caqi={airQualityMeta.index} style={{ left }}>
