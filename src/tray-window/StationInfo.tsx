@@ -4,7 +4,7 @@ import { ContentSpacing, Icon as BaseIcon, Link, PhotonIcon, CenteredText } from
 import styled, { IStyleAwareProps } from '../styled-components';
 
 const Icon = styled(BaseIcon)`
-  margin-right: 4px;
+  margin-right: 0.4em;
 `;
 
 interface IStationInfoProps extends IStyleAwareProps {
