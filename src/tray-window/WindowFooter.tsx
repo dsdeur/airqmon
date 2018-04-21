@@ -60,6 +60,7 @@ const WindowFooter: React.SFC<IWindowFooterProps> = (props) => {
 
 const StyledWindowFooter = styled(WindowFooter)`
   box-shadow: none;
+  border-top: ${(props) => props.theme.border};
 `;
 
 export default StyledWindowFooter;
