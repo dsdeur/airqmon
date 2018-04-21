@@ -22,20 +22,34 @@ interface ITrayWindowProps extends IStyleAwareProps {
   onPreferencesClickHandler: () => void;
 }
 
+const TrayWindowContentWrapperElement: React.SFC<IStyleAwareProps> = (props) => {
+  return (
+    <div className={`window-content ${props.className}`}>
+      <div className="pane">{props.children}</div>
+    </div>
+  );
+};
+
+const TrayWindowContentWrapper = styled(TrayWindowContentWrapperElement)`
+  background-color: ${(props) => props.theme.background.primaryColor};
+`;
+
 const TrayWindow: React.SFC<ITrayWindowProps> = (props) => {
   return (
     <div className={`window ${props.className}`}>
       <WindowHeader />
-      <ErrorBoundary>
-        <WindowContent
-          airlyApiStatus={props.airlyApiStatus}
-          geolocationError={props.geolocationError}
-          availableAppUpdate={props.availableAppUpdate}
-          connectionStatus={props.connectionStatus}
-          currentMeasurements={props.currentMeasurements}
-          nearestStation={props.nearestStation}
-        />
-      </ErrorBoundary>
+      <TrayWindowContentWrapper>
+        <ErrorBoundary>
+          <WindowContent
+            airlyApiStatus={props.airlyApiStatus}
+            geolocationError={props.geolocationError}
+            availableAppUpdate={props.availableAppUpdate}
+            connectionStatus={props.connectionStatus}
+            currentMeasurements={props.currentMeasurements}
+            nearestStation={props.nearestStation}
+          />
+        </ErrorBoundary>
+      </TrayWindowContentWrapper>
       <WindowFooter
         lastUpdateDate={props.lastUpdateDate}
         isAutoRefreshEnabled={props.isAutoRefreshEnabled}
