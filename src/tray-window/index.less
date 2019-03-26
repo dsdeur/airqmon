@@ -75,6 +75,16 @@
         }
       }
     }
+
+    .details {
+      margin: @base-spacing;
+      padding: @base-spacing / 2;
+      border-radius: @window-border-radius;
+      @border: #theme.light.border();
+      border: @border[size] @border[style] fade(@border[color], 33%);
+      background-color: fade(#theme.light.background.color() [secondary], 33%);
+    }
+
     &.dark-theme {
       .toolbar {
         border-color: #theme.dark.footer.border.color() [primary];
@@ -111,6 +121,11 @@
           background-color: #theme.dark.background.color() [secondary];
           background-image: none;
         }
+      }
+
+      .details {
+        border-color: fade(#theme.dark.border() [color], 33%);
+        background-color: fade(#theme.dark.background.color() [primary], 33%);
       }
     }
   }

@@ -96,9 +96,10 @@ class Content extends React.Component<IContentProps> {
       return (
         <>
           {updateAlert}
-          <AirQualityInfo airQualityIndex={station.measurements.caqi} />
-          <MeasurementPane measurement={station.measurements.values} />
-          <div className="section-line" />
+          <div className="details">
+            <AirQualityInfo airQualityIndex={station.measurements.caqi} />
+            <MeasurementPane measurement={station.measurements.values} />
+          </div>
           <StationInfo distance={distance} station={station} />
         </>
       );
